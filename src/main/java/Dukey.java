@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Dukey {
     public static void main(String[] args) {
@@ -15,6 +16,7 @@ public class Dukey {
         System.out.println(welcome);
 
         Scanner sc = new Scanner(System.in);
+        ArrayList<String> todoList = new ArrayList<>();
         boolean active = true;
 
         while (active) {
@@ -22,12 +24,20 @@ public class Dukey {
             if (command.toLowerCase().equals("bye")) {
                 System.out.println(bye);
                 active = false;
+            } else if (command.toLowerCase().equals("list")) {
+                System.out.println("____________________________________________________________");
+                for (int count = 1; count <= todoList.size(); count++) {
+                    System.out.println(count + ". " + todoList.get(count-1));
+                }
+                System.out.println("____________________________________________________________\n");
             } else {
-                System.out.println(
-                        "____________________________________________________________\n" +
-                                command +
-                                "\n____________________________________________________________\n");
+                    todoList.add(command);
+                    System.out.println(
+                            "____________________________________________________________\n" +
+                                    "added: " + command +
+                                    "\n____________________________________________________________\n");
             }
         }
     }
 }
+

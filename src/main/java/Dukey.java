@@ -1,3 +1,8 @@
+import Exceptions.EmptyDescriptionException;
+import Exceptions.InvalidCommandException;
+import Exceptions.MissingDeadlineException;
+import Exceptions.MissingTimeframeException;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -50,7 +55,12 @@ public class Dukey {
                             "____________________________________________________________\n");
                 }
             } else {
-                Dukey.addNewTask(command, todoList);
+                try {
+                    Dukey.addNewTask(command, todoList);
+                } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
+                        MissingTimeframeException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
@@ -86,30 +96,51 @@ public class Dukey {
         System.out.println(successMessage);
     }
 
-    public static void addNewTask(String input, ArrayList<Task> todoList) {
+    public static void addNewTask(String input, ArrayList<Task> todoList)
+            throws InvalidCommandException, EmptyDescriptionException,
+            MissingDeadlineException, MissingTimeframeException {
         Task newTask;
 
-        if (input.split(" ")[0].toLowerCase().equals("todo")) {
-            String description = input.substring(input.indexOf(" ") + 1);
+        switch (input.split(" ")[0].toLowerCase()) {
+            case "todo" -> {
+                String description = input.substring(input.indexOf(" ") + 1);
+                System.out.println("description: " + description);
 
-            newTask = new Todo(description);
-            todoList.add(newTask);
+                if (!input.trim().contains(" ")) {
+                    throw new EmptyDescriptionException();
+                }
 
-        } else if (input.split(" ")[0].toLowerCase().equals("deadline")) {
-            String description = input.substring(input.indexOf(" ") + 1);
+                newTask = new Todo(description);
+                todoList.add(newTask);
+            }
+            case "deadline" -> {
+                String description = input.substring(input.indexOf(" ") + 1);
+                System.out.println("description: " + description);
 
-            newTask = new Deadline(description);
-            todoList.add(newTask);
+                if (!input.trim().contains(" ")) {
+                    throw new EmptyDescriptionException();
+                } else if (!input.contains("/by")) {
+                    throw new MissingDeadlineException();
+                }
 
-        } else if (input.split(" ")[0].toLowerCase().equals("event")) {
-            String description = input.substring(input.indexOf(" ") + 1);
+                newTask = new Deadline(description);
+                todoList.add(newTask);
+            }
+            case "event" -> {
+                String description = input.substring(input.indexOf(" ") + 1);
+                System.out.println("description: " + description);
 
-            newTask = new Event(description);
-            todoList.add(newTask);
-
-        } else {
-            newTask = new Task(input);
-            todoList.add(newTask);
+                if (!input.trim().contains(" ")) {
+                    throw new EmptyDescriptionException();
+                } else if (!input.contains("/from") || !input.contains("/to")) {
+                    throw new MissingTimeframeException();
+                }
+                newTask = new Event(description);
+                todoList.add(newTask);
+            }
+            default -> {
+                throw new InvalidCommandException();
+            }
         }
 
         System.out.println(

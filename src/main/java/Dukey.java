@@ -21,7 +21,7 @@ public class Dukey {
         boolean active = true;
 
         while (active) {
-            String command = sc.nextLine();
+            String command = sc.nextLine().trim();
             if (command.toLowerCase().equals("bye")) {
                 System.out.println(bye);
                 active = false;
@@ -50,11 +50,7 @@ public class Dukey {
                             "____________________________________________________________\n");
                 }
             } else {
-                    todoList.add(new Task(command));
-                    System.out.println(
-                            "____________________________________________________________\n" +
-                                    "added: " + command +
-                                    "\n____________________________________________________________\n");
+                Dukey.addNewTask(command, todoList);
             }
         }
     }
@@ -63,7 +59,7 @@ public class Dukey {
         System.out.println("____________________________________________________________");
         for (int count = 1; count <= todoList.size(); count++) {
             Task currentTask = todoList.get(count - 1);
-            System.out.println(count + ". [" + currentTask.getStatusIcon() + "] " + currentTask.getDescription());
+            System.out.println(count + ". " + currentTask.toString());
         }
         System.out.println("____________________________________________________________\n");
     }
@@ -73,8 +69,8 @@ public class Dukey {
         currentTask.markDoneStatus();
         String successMessage =
                 "____________________________________________________________\n" +
-                        "Nice! I've marked this task as done.\n" +
-                        "[" + currentTask.getStatusIcon() + "] " + currentTask.getDescription() +
+                        "Nice! I've marked this task as done.\n   " +
+                        currentTask.toString() +
                         "\n____________________________________________________________\n";
         System.out.println(successMessage);
     }
@@ -84,10 +80,44 @@ public class Dukey {
         currentTask.unmarkDoneStatus();
         String successMessage =
                 "____________________________________________________________\n" +
-                        "Nice! I've unmarked this task as not done.\n" +
-                        "[" + currentTask.getStatusIcon() + "] " + currentTask.getDescription() +
+                        "Nice! I've unmarked this task as not done.\n   " +
+                        currentTask.toString() +
                         "\n____________________________________________________________\n";
         System.out.println(successMessage);
+    }
+
+    public static void addNewTask(String input, ArrayList<Task> todoList) {
+        Task newTask;
+
+        if (input.split(" ")[0].toLowerCase().equals("todo")) {
+            String description = input.substring(input.indexOf(" ") + 1);
+
+            newTask = new Todo(description);
+            todoList.add(newTask);
+
+        } else if (input.split(" ")[0].toLowerCase().equals("deadline")) {
+            String description = input.substring(input.indexOf(" ") + 1);
+
+            newTask = new Deadline(description);
+            todoList.add(newTask);
+
+        } else if (input.split(" ")[0].toLowerCase().equals("event")) {
+            String description = input.substring(input.indexOf(" ") + 1);
+
+            newTask = new Event(description);
+            todoList.add(newTask);
+
+        } else {
+            newTask = new Task(input);
+            todoList.add(newTask);
+        }
+
+        System.out.println(
+                "____________________________________________________________\n" +
+                "Understood. I have added the task:\n    "
+                + newTask.toString()
+                + "\nYou now have " + todoList.size() + " tasks in the list."
+                + "\n____________________________________________________________\n");
     }
 }
 

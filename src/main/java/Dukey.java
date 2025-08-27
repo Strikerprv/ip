@@ -54,6 +54,17 @@ public class Dukey {
                                     "Task number exceeds the number of tasks! Please amend command!\n" +
                             "____________________________________________________________\n");
                 }
+            } else if (command.split(" ").length == 2 &&
+                    command.split(" ")[0].toLowerCase().equals("delete")) {
+                int taskNumber = Integer.parseInt(command.split(" ")[1]);
+                if (taskNumber <= todoList.size()) {
+                    Dukey.removeTask(todoList, taskNumber);
+                } else {
+                    System.out.println(
+                            "____________________________________________________________\n" +
+                                    "Task number exceeds the number of tasks! Please amend command!\n" +
+                                    "____________________________________________________________\n");
+                }
             } else {
                 try {
                     Dukey.addNewTask(command, todoList);
@@ -149,6 +160,16 @@ public class Dukey {
                 + newTask.toString()
                 + "\nYou now have " + todoList.size() + " tasks in the list."
                 + "\n____________________________________________________________\n");
+    }
+
+    public static void removeTask(ArrayList<Task> todoList, int taskNumber) {
+        System.out.println(
+                "____________________________________________________________\n" +
+                        "Understood. I have removed this task:\n    "
+                        + todoList.get(taskNumber - 1).toString()
+                        + "\nYou now have " + (todoList.size() - 1) + " tasks in the list."
+                        + "\n____________________________________________________________\n");
+        todoList.remove(taskNumber - 1);
     }
 }
 

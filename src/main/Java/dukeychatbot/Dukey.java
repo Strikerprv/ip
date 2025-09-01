@@ -9,6 +9,8 @@ import dukeychatbot.tasktypes.Event;
 import dukeychatbot.tasktypes.Task;
 import dukeychatbot.tasktypes.Todo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -29,44 +31,26 @@ public class Dukey {
      *
      */
     public static void main(String[] args) {
-        String welcome =
-                "____________________________________________________________\n" +
-                " Hello! I'm Dukey\n" +
-                " What can I do for you?\n" +
-                "____________________________________________________________\n";
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Task> tasks = new ArrayList<>();
+        boolean isActive = true;
+
         String bye =
                 "____________________________________________________________\n" +
                 " Bye. Hope to see you again soon!\n" +
                 "____________________________________________________________\n";
 
-        System.out.println(welcome);
-
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
-        boolean isActive = true;
+        System.out.println(
+                "____________________________________________________________\n" +
+                " Hello! I'm Dukey\n" +
+                " You have " + tasks.size() + " tasks in your list.\n" +
+                " What can I do for you?\n" +
+                "____________________________________________________________\n");
 
         while (isActive) {
             String command = sc.nextLine().trim();
             if (command.toLowerCase().equals("bye")) {
-                try {
-                    FileWriter writer = new FileWriter("./data/dukey.txt");
-                    // Concatenate strings together to input into the text file
-                    StringBuilder resultText = new StringBuilder();
-
-                    for (int count = 1; count <= tasks.size(); count++) {
-                        Task currentTask = tasks.get(count - 1);
-                        if (count == tasks.size()) {
-                            resultText.append(currentTask.toString());
-                        } else {
-                            resultText.append(currentTask.toString()).append("\n");
-                        }
-                    }
-                    writer.write(resultText.toString());
-                    writer.close();
-                } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
-                }
+                writeToFile(tasks);
                 System.out.println(bye);
                 isActive = false;
             } else if (command.toLowerCase().equals("list")) {
@@ -106,7 +90,7 @@ public class Dukey {
                 }
             } else {
                 try {
-                    Dukey.addNewTask(tasks, command);
+                    Dukey.addNewTask(tasks, command, false, false);
                 } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
                         MissingTimeframeException e) {
                     System.out.println(e.getMessage());
@@ -115,11 +99,98 @@ public class Dukey {
         }
     }
 
+    /**
+     * Reads from the dukey.txt file and initialises the task list.
+     *
+     * @param tasks ArrayList of type Task.
+     */
+    public static void readFromFile(ArrayList<Task> tasks) {
+        try {
+            File dukeyText = new File("./data/dukey.txt");
+            Scanner myReader = new Scanner(dukeyText);
+            while (myReader.hasNextLine()) {
+                String input = myReader.nextLine();
+                try {
+                    // Need to format the input string so that it resembles a command
+                    StringBuilder formattedCommand = new StringBuilder();
+
+                    String[] inputArray = input.split(" ");
+                    boolean taskIsDone = false;
+                    if (inputArray[1].length() != 1) {
+                        taskIsDone = true;
+                    }
+
+                    // Split according to the two [] and only retain the description portion
+                    String description = input.split("]")[2].trim();
+                    String type = String.valueOf(inputArray[0].charAt(1));
+
+                    switch (type) {
+                    case "T" -> {
+                        formattedCommand.append("todo ");
+                        formattedCommand.append(description);
+                    }
+                    case "D" -> {
+                        formattedCommand.append("deadline ");
+                        String[] splitDescription = description.split("\\(by:");
+                        String deadline = splitDescription[1].trim();
+                        String formattedDescription = splitDescription[0].trim() + " /by " +
+                                deadline.substring(0, deadline.length() - 1);
+                        formattedCommand.append(formattedDescription);
+                    }
+                    case "E" -> {
+                        formattedCommand.append("event ");
+                        String[] splitDescription = description.split("\\(from:");
+                        String taskDescription = splitDescription[0].trim();
+                        String[] timePeriod = splitDescription[1].split("to:");
+                        String fromTime = timePeriod[0].trim();
+                        String toTime = timePeriod[1].trim();
+                        toTime = toTime.substring(0, toTime.length() - 1);
+                        String compiledCommand = taskDescription + " /from " + fromTime + " /to " + toTime;
+                        formattedCommand.append(compiledCommand);
+                    }
+                    }
+                    Dukey.addNewTask(tasks, formattedCommand.toString(), taskIsDone, true);
+                } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
+                         MissingTimeframeException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File was not found: " + e.getMessage());
+        }
+    }
+    /**
+     * Saves the tasks in the hard disk by updating the dukey.txt file.
+     *
+     * @param tasks ArrayList of type Task.
+     */
+    public static void writeToFile(ArrayList<Task> tasks) {
+        try {
+            FileWriter writer = new FileWriter("./data/dukey.txt");
+            // Concatenate strings together to input into the text file
+            StringBuilder resultText = new StringBuilder();
+
+            for (int count = 1; count <= tasks.size(); count++) {
+                Task currentTask = tasks.get(count - 1);
+                if (count == tasks.size()) {
+                    resultText.append(currentTask.toString());
+                } else {
+                    resultText.append(currentTask.toString()).append("\n");
+                }
+            }
+            writer.write(resultText.toString());
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File cannot be found: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("An error occurred." + e.getMessage());
+        }
+    }
 
     /**
      * Returns list of current tasks.
      *
-     * @param tasks ArrayList of type dukeychatbot.tasktypes.Task.
+     * @param tasks ArrayList of type Task.
      */
     public static void printList(ArrayList<Task> tasks) {
         System.out.println("____________________________________________________________");
@@ -133,7 +204,7 @@ public class Dukey {
     /**
      * Marks certain tasks as done.
      *
-     * @param tasks ArrayList of type dukeychatbot.tasktypes.Task.
+     * @param tasks ArrayList of type Task.
      * @param taskNumber Index of the task in the list.
      */
     public static void markDone(ArrayList<Task> tasks, int taskNumber) {
@@ -150,7 +221,7 @@ public class Dukey {
     /**
      * Marks certain tasks as not done.
      *
-     * @param tasks ArrayList of type dukeychatbot.tasktypes.Task.
+     * @param tasks ArrayList of type Task.
      * @param taskNumber Index of the task in the list.
      */
     public static void unmarkDone(ArrayList<Task> tasks, int taskNumber) {
@@ -167,14 +238,16 @@ public class Dukey {
     /**
      * Adds tasks to the list according to the task type.
      *
-     * @param tasks ArrayList of type dukeychatbot.tasktypes.Task.
+     * @param tasks ArrayList of type Task.
      * @param input User input for the new task.
+     * @param isDone To initialise task list and indicate whether task has been completed already.
+     * @param isInitialise State whether this method was for initialising the task list.
      * @throws InvalidCommandException If command is not allowed.
      * @throws EmptyDescriptionException If task description is empty.
      * @throws MissingDeadlineException If deadline task did not indicate a deadline.
      * @throws MissingTimeframeException If event task did not indicate a time frame.
      */
-    public static void addNewTask(ArrayList<Task> tasks, String input)
+    public static void addNewTask(ArrayList<Task> tasks, String input, boolean isDone, boolean isInitialise)
             throws InvalidCommandException, EmptyDescriptionException,
             MissingDeadlineException, MissingTimeframeException {
         Task newTask;
@@ -188,7 +261,7 @@ public class Dukey {
                 throw new EmptyDescriptionException();
             }
 
-            newTask = new Todo(description, false);
+            newTask = new Todo(description, isDone);
             tasks.add(newTask);
         }
         case "deadline" -> {
@@ -201,7 +274,7 @@ public class Dukey {
                 throw new MissingDeadlineException();
             }
 
-            newTask = new Deadline(description, false);
+            newTask = new Deadline(description, isDone);
             tasks.add(newTask);
         }
         case "event" -> {
@@ -213,26 +286,27 @@ public class Dukey {
             } else if (!input.contains("/from") || !input.contains("/to")) {
                 throw new MissingTimeframeException();
             }
-            newTask = new Event(description, false);
+            newTask = new Event(description, isDone);
             tasks.add(newTask);
         }
         default -> {
             throw new InvalidCommandException();
         }
         }
-
-        System.out.println(
-                "____________________________________________________________\n" +
-                "Understood. I have added the task:\n    "
-                + newTask.toString()
-                + "\nYou now have " + tasks.size() + " tasks in the list."
-                + "\n____________________________________________________________\n");
+        if (!isInitialise) {
+            System.out.println(
+                    "____________________________________________________________\n" +
+                            "Understood. I have added the task:\n    "
+                            + newTask.toString()
+                            + "\nYou now have " + tasks.size() + " tasks in the list."
+                            + "\n____________________________________________________________\n");
+        }
     }
 
     /**
      * Removes task from the list.
      *
-     * @param tasks ArrayList of type dukeychatbot.tasktypes.Task.
+     * @param tasks ArrayList of type Task.
      * @param taskNumber Index of the task in the list.
      */
     public static void removeTask(ArrayList<Task> tasks, int taskNumber) {

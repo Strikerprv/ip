@@ -9,6 +9,9 @@ import dukeychatbot.tasktypes.Event;
 import dukeychatbot.tasktypes.Task;
 import dukeychatbot.tasktypes.Todo;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -45,6 +48,25 @@ public class Dukey {
         while (isActive) {
             String command = sc.nextLine().trim();
             if (command.toLowerCase().equals("bye")) {
+                try {
+                    FileWriter writer = new FileWriter("./data/dukey.txt");
+                    // Concatenate strings together to input into the text file
+                    StringBuilder resultText = new StringBuilder();
+
+                    for (int count = 1; count <= tasks.size(); count++) {
+                        Task currentTask = tasks.get(count - 1);
+                        if (count == tasks.size()) {
+                            resultText.append(currentTask.toString());
+                        } else {
+                            resultText.append(currentTask.toString()).append("\n");
+                        }
+                    }
+                    writer.write(resultText.toString());
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
                 System.out.println(bye);
                 isActive = false;
             } else if (command.toLowerCase().equals("list")) {
@@ -57,7 +79,7 @@ public class Dukey {
                 } else {
                     System.out.println(
                             "____________________________________________________________\n" +
-                            "dukeychatbot.tasktypes.Task number exceeds the number of tasks! Please amend command!\n" +
+                            "Task number exceeds the number of tasks! Please amend command!\n" +
                             "____________________________________________________________\n");
                 }
             } else if (command.split(" ").length == 2 &&
@@ -68,7 +90,7 @@ public class Dukey {
                 } else {
                     System.out.println(
                             "____________________________________________________________\n" +
-                                    "dukeychatbot.tasktypes.Task number exceeds the number of tasks! Please amend command!\n" +
+                            "Task number exceeds the number of tasks! Please amend command!\n" +
                             "____________________________________________________________\n");
                 }
             } else if (command.split(" ").length == 2 &&
@@ -79,8 +101,8 @@ public class Dukey {
                 } else {
                     System.out.println(
                             "____________________________________________________________\n" +
-                                    "dukeychatbot.tasktypes.Task number exceeds the number of tasks! Please amend command!\n" +
-                                    "____________________________________________________________\n");
+                            "Task number exceeds the number of tasks! Please amend command!\n" +
+                            "____________________________________________________________\n");
                 }
             } else {
                 try {
@@ -166,7 +188,7 @@ public class Dukey {
                 throw new EmptyDescriptionException();
             }
 
-            newTask = new Todo(description);
+            newTask = new Todo(description, false);
             tasks.add(newTask);
         }
         case "deadline" -> {
@@ -179,7 +201,7 @@ public class Dukey {
                 throw new MissingDeadlineException();
             }
 
-            newTask = new Deadline(description);
+            newTask = new Deadline(description, false);
             tasks.add(newTask);
         }
         case "event" -> {
@@ -191,7 +213,7 @@ public class Dukey {
             } else if (!input.contains("/from") || !input.contains("/to")) {
                 throw new MissingTimeframeException();
             }
-            newTask = new Event(description);
+            newTask = new Event(description, false);
             tasks.add(newTask);
         }
         default -> {
@@ -216,10 +238,10 @@ public class Dukey {
     public static void removeTask(ArrayList<Task> tasks, int taskNumber) {
         System.out.println(
                 "____________________________________________________________\n" +
-                        "Understood. I have removed this task:\n    "
-                        + tasks.get(taskNumber - 1).toString()
-                        + "\nYou now have " + (tasks.size() - 1) + " tasks in the list."
-                        + "\n____________________________________________________________\n");
+                "Understood. I have removed this task:\n    " +
+                tasks.get(taskNumber - 1).toString() +
+                "\nYou now have " + (tasks.size() - 1) + " tasks in the list." +
+                "\n____________________________________________________________\n");
         tasks.remove(taskNumber - 1);
     }
 }

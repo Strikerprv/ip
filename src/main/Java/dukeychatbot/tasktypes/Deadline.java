@@ -1,9 +1,21 @@
+package dukeychatbot.tasktypes;
+
+/**
+ * Constructs Deadline class which inherits from Task class.
+ * Overrides {@code toString()} method.
+ */
 public class Deadline extends Task{
 
     public Deadline(String description) {
         super(description);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Deadline {@code toString()} method includes "[D]" at the front of the string, and
+     * the date the task has to be completed by.
+     */
     @Override
     public String toString() {
         String description = this.getDescription();

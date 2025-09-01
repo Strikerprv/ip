@@ -1,6 +1,11 @@
-package Exceptions;
+package dukeychatbot.dukeyexceptions;
 
-public class EmptyDescriptionException extends DukeException{
+/**
+ * Constructs EmptyDescriptionException error which inherits from DukeyException.
+ *
+ * <p>Returns error when tasks description is not stated by users.</p>
+ */
+public class EmptyDescriptionException extends DukeyException{
 
     public EmptyDescriptionException() {
         super( "____________________________________________________________\n" +

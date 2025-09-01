@@ -1,9 +1,21 @@
+package dukeychatbot.tasktypes;
+
+/**
+ * Constructs Event class which inherits from Task class.
+ * Overrides {@code toString()} method.
+ */
 public class Event extends Task{
 
     public Event(String description) {
         super(description);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Event {@code toString()} method includes "[E]" at the front of the string, and
+     * the event's timeframe.
+     */
     @Override
     public String toString() {
         String currentDescription = this.getDescription();

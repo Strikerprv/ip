@@ -1,6 +1,11 @@
-package Exceptions;
+package dukeychatbot.dukeyexceptions;
 
-public class InvalidCommandException extends DukeException {
+/**
+ * Constructs InvalidCommandException error which inherits from DukeyException.
+ *
+ * <p>Returns error when user inputs a command is not provided.</p>
+ */
+public class InvalidCommandException extends DukeyException {
 
     public InvalidCommandException() {
         super("____________________________________________________________\n" +

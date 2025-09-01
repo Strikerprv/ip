@@ -1,6 +1,3 @@
 [T] [ ] Read Book
-[D] [X] Read Magazine (by: 8 August)
-[E] [ ] Read Newspaper (from: 2 August to: 9 August)
-[T] [X] Read Book 2
-[T] [ ] read Book 3
-[D] [ ] read something (by: 30 August)
+[D] [ ] Read Newspaper (by: 8 August)
+[E] [ ] Read Receipt (from: 20 May to: 25 May)

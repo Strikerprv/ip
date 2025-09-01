@@ -35,6 +35,8 @@ public class Dukey {
         ArrayList<Task> tasks = new ArrayList<>();
         boolean isActive = true;
 
+        readFromFile(tasks);
+
         String bye =
                 "____________________________________________________________\n" +
                 " Bye. Hope to see you again soon!\n" +

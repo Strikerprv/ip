@@ -1,0 +1,141 @@
+package dukeychatbot;
+
+import dukeychatbot.dukeyexceptions.EmptyDescriptionException;
+import dukeychatbot.dukeyexceptions.InvalidCommandException;
+import dukeychatbot.dukeyexceptions.MissingDeadlineException;
+import dukeychatbot.dukeyexceptions.MissingTimeframeException;
+import dukeychatbot.tasktypes.Deadline;
+import dukeychatbot.tasktypes.Event;
+import dukeychatbot.tasktypes.Task;
+import dukeychatbot.tasktypes.Todo;
+
+import java.util.ArrayList;
+
+public class TaskList {
+    private ArrayList<Task> tasks;
+
+    public TaskList(ArrayList<String> taskList) {
+        this.initialiseTasks(taskList);
+    }
+
+    private void initialiseTasks(ArrayList<String> taskList) {
+        for (String input : taskList) {
+            try {
+                // Need to format the input string so that it resembles a command
+                StringBuilder formattedCommand = new StringBuilder();
+
+                String[] inputArray = input.split(" ");
+                boolean taskIsDone = false;
+                if (inputArray[1].length() != 1) {
+                    taskIsDone = true;
+                }
+
+                // Split according to the two [] and only retain the description portion
+                String description = input.split("]")[2].trim();
+                String type = String.valueOf(inputArray[0].charAt(1));
+
+                switch (type) {
+                case "T" -> {
+                    formattedCommand.append("todo ");
+                    formattedCommand.append(description);
+                }
+                case "D" -> {
+                    formattedCommand.append("deadline ");
+                    String[] splitDescription = description.split("\\(by:");
+                    String deadline = splitDescription[1].trim();
+                    String formattedDescription = splitDescription[0].trim() + " /by " +
+                            deadline.substring(0, deadline.length() - 1);
+                    formattedCommand.append(formattedDescription);
+                }
+                case "E" -> {
+                    formattedCommand.append("event ");
+                    String[] splitDescription = description.split("\\(from:");
+                    String taskDescription = splitDescription[0].trim();
+                    String[] timePeriod = splitDescription[1].split("to:");
+                    String fromTime = timePeriod[0].trim();
+                    String toTime = timePeriod[1].trim();
+                    toTime = toTime.substring(0, toTime.length() - 1);
+                    String compiledCommand = taskDescription + " /from " + fromTime + " /to " + toTime;
+                    formattedCommand.append(compiledCommand);
+                }
+                }
+                this.addNewTask(tasks, formattedCommand.toString(), taskIsDone, true);
+            } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
+                     MissingTimeframeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void addNewTask(ArrayList<Task> tasks, String input, boolean isDone, boolean isInitialise)
+            throws InvalidCommandException, EmptyDescriptionException,
+            MissingDeadlineException, MissingTimeframeException {
+        Task newTask;
+
+        switch (input.split(" ")[0].toLowerCase()) {
+        case "todo" -> {
+            String description = input.substring(input.indexOf(" ") + 1);
+//            System.out.println("description: " + description);
+
+            if (!input.trim().contains(" ")) {
+                throw new EmptyDescriptionException();
+            }
+
+            newTask = new Todo(description, isDone);
+            tasks.add(newTask);
+        }
+        case "deadline" -> {
+            String description = input.substring(input.indexOf(" ") + 1);
+//            System.out.println("description: " + description);
+
+            if (!input.trim().contains(" ")) {
+                throw new EmptyDescriptionException();
+            } else if (!input.contains("/by")) {
+                throw new MissingDeadlineException();
+            }
+//            int index = -1;
+//            for (int i = 0; i < deadlineTimeArray.length; i++) {
+//                if (deadlineTimeArray[i].length() == 10 && deadlineTimeArray[i].matches(DATE_PATTERN)) {
+//                    date = deadlineTimeArray[i];
+//                    try {
+//                        LocalDate dateInput = LocalDate.parse(date);
+//                        dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+//                        hasDate = true;
+//                        index = i;
+//                        break;
+//                    } catch (DateTimeParseException e) {
+//                        System.out.println("Date parsed failed. Error message: " + e.getMessage());
+//                    }
+//                }
+//            }
+            newTask = new Deadline(description, isDone);
+            tasks.add(newTask);
+        }
+        case "event" -> {
+            String description = input.substring(input.indexOf(" ") + 1);
+//            System.out.println("description: " + description);
+
+            if (!input.trim().contains(" ")) {
+                throw new EmptyDescriptionException();
+            } else if (!input.contains("/from") || !input.contains("/to")) {
+                throw new MissingTimeframeException();
+            }
+
+            newTask = new Event(description, isDone);
+            tasks.add(newTask);
+        }
+        default -> {
+            throw new InvalidCommandException();
+        }
+        }
+        if (!isInitialise) {
+            System.out.println(
+                    "____________________________________________________________\n" +
+                            "Understood. I have added the task:\n    "
+                            + newTask.toString()
+                            + "\nYou now have " + tasks.size() + " tasks in the list."
+                            + "\n____________________________________________________________\n");
+        }
+    }
+
+}

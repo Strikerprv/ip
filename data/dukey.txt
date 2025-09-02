@@ -1,4 +1,3 @@
 [T] [ ] Read Book
 [D] [ ] Read Newspaper (by: 8 August)
-[E] [ ] Read Receipt (from: 20 May to: 25 May)
 [D] [X] Read NSS Reading (by: Dec 22 2019)

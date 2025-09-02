@@ -12,7 +12,7 @@ import dukeychatbot.tasktypes.Todo;
 import java.util.ArrayList;
 
 public class TaskList {
-    private ArrayList<Task> tasks;
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     public TaskList(ArrayList<String> taskList) {
         this.initialiseTasks(taskList);
@@ -59,7 +59,7 @@ public class TaskList {
                     formattedCommand.append(compiledCommand);
                 }
                 }
-                this.addNewTask(tasks, formattedCommand.toString(), taskIsDone, true);
+                this.addNewTask(formattedCommand.toString(), taskIsDone, true);
             } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
                      MissingTimeframeException e) {
                 System.out.println(e.getMessage());
@@ -67,7 +67,11 @@ public class TaskList {
         }
     }
 
-    public void addNewTask(ArrayList<Task> tasks, String input, boolean isDone, boolean isInitialise)
+    public ArrayList<Task> getTasks() {
+        return this.tasks;
+    }
+
+    public void addNewTask(String input, boolean isDone, boolean isInitialise)
             throws InvalidCommandException, EmptyDescriptionException,
             MissingDeadlineException, MissingTimeframeException {
         Task newTask;
@@ -82,7 +86,7 @@ public class TaskList {
             }
 
             newTask = new Todo(description, isDone);
-            tasks.add(newTask);
+            this.tasks.add(newTask);
         }
         case "deadline" -> {
             String description = input.substring(input.indexOf(" ") + 1);
@@ -109,7 +113,7 @@ public class TaskList {
 //                }
 //            }
             newTask = new Deadline(description, isDone);
-            tasks.add(newTask);
+            this.tasks.add(newTask);
         }
         case "event" -> {
             String description = input.substring(input.indexOf(" ") + 1);
@@ -122,7 +126,7 @@ public class TaskList {
             }
 
             newTask = new Event(description, isDone);
-            tasks.add(newTask);
+            this.tasks.add(newTask);
         }
         default -> {
             throw new InvalidCommandException();
@@ -136,6 +140,38 @@ public class TaskList {
                             + "\nYou now have " + tasks.size() + " tasks in the list."
                             + "\n____________________________________________________________\n");
         }
+    }
+
+    public void removeTask(int taskNumber) {
+        System.out.println(
+                "____________________________________________________________\n" +
+                        "Understood. I have removed this task:\n    " +
+                        tasks.get(taskNumber - 1).toString() +
+                        "\nYou now have " + (tasks.size() - 1) + " tasks in the list." +
+                        "\n____________________________________________________________\n");
+        tasks.remove(taskNumber - 1);
+    }
+
+    public void markDone(int taskNumber) {
+        Task currentTask = this.tasks.get(taskNumber - 1);
+        currentTask.markDoneStatus();
+        String successMessage =
+                "____________________________________________________________\n" +
+                        "Nice! I've marked this task as done.\n   " +
+                        currentTask.toString() +
+                        "\n____________________________________________________________\n";
+        System.out.println(successMessage);
+    }
+
+    public void unmarkDone(int taskNumber) {
+        Task currentTask = this.tasks.get(taskNumber - 1);
+        currentTask.unmarkDoneStatus();
+        String successMessage =
+                "____________________________________________________________\n" +
+                        "Nice! I've unmarked this task as not done.\n   " +
+                        currentTask.toString() +
+                        "\n____________________________________________________________\n";
+        System.out.println(successMessage);
     }
 
 }

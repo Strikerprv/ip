@@ -4,15 +4,7 @@ import dukeychatbot.dukeyexceptions.EmptyDescriptionException;
 import dukeychatbot.dukeyexceptions.InvalidCommandException;
 import dukeychatbot.dukeyexceptions.MissingDeadlineException;
 import dukeychatbot.dukeyexceptions.MissingTimeframeException;
-import dukeychatbot.tasktypes.Deadline;
-import dukeychatbot.tasktypes.Event;
 import dukeychatbot.tasktypes.Task;
-import dukeychatbot.tasktypes.Todo;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -24,11 +16,11 @@ import java.util.ArrayList;
  */
 public class Dukey {
     private Storage storage;
-    private TaskList tasks;
+    private TaskList taskArray;
 
     public Dukey(String filePath) {
         this.storage = new Storage(filePath);
-        this.tasks = new TaskList(this.storage.load());
+        this.taskArray = new TaskList(this.storage.load());
     }
     /**
      * Returns Dukey chatbot.
@@ -42,10 +34,7 @@ public class Dukey {
 
     public void run() {
         Scanner sc = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
         boolean isActive = true;
-
-        readFromFile(tasks);
 
         String bye =
                 "____________________________________________________________\n" +
@@ -55,24 +44,24 @@ public class Dukey {
         System.out.println(
                 "____________________________________________________________\n" +
                 " Hello! I'm Dukey\n" +
-                " You have " + tasks.size() + " tasks in your list.\n" +
+                " You have " + taskArray.getTasks().size() + " tasks in your list.\n" +
                 " What can I do for you?\n" +
                 "____________________________________________________________\n");
 
         while (isActive) {
             String command = sc.nextLine().trim();
             if (command.toLowerCase().equals("bye")) {
-                this.storage.save(tasks);
+                this.storage.save(taskArray.getTasks());
 //                writeToFile(tasks);
                 System.out.println(bye);
                 isActive = false;
             } else if (command.toLowerCase().equals("list")) {
-                this.printList(tasks);
+                this.printList(taskArray.getTasks());
             } else if (command.split(" ").length == 2 &&
                     command.split(" ")[0].toLowerCase().equals("mark")) {
                 int taskNumber = Integer.parseInt(command.split(" ")[1]);
-                if (taskNumber <= tasks.size()) {
-                    markDone(tasks, taskNumber);
+                if (taskNumber <= taskArray.getTasks().size()) {
+                    this.taskArray.markDone(taskNumber);
                 } else {
                     System.out.println(
                             "____________________________________________________________\n" +
@@ -82,8 +71,8 @@ public class Dukey {
             } else if (command.split(" ").length == 2 &&
                     command.split(" ")[0].toLowerCase().equals("unmark")) {
                 int taskNumber = Integer.parseInt(command.split(" ")[1]);
-                if (taskNumber <= tasks.size()) {
-                    unmarkDone(tasks, taskNumber);
+                if (taskNumber <= taskArray.getTasks().size()) {
+                    this.taskArray.unmarkDone(taskNumber);
                 } else {
                     System.out.println(
                             "____________________________________________________________\n" +
@@ -93,8 +82,8 @@ public class Dukey {
             } else if (command.split(" ").length == 2 &&
                     command.split(" ")[0].toLowerCase().equals("delete")) {
                 int taskNumber = Integer.parseInt(command.split(" ")[1]);
-                if (taskNumber <= tasks.size()) {
-                    this.removeTask(tasks, taskNumber);
+                if (taskNumber <= taskArray.getTasks().size()) {
+                    this.taskArray.removeTask(taskNumber);
                 } else {
                     System.out.println(
                             "____________________________________________________________\n" +
@@ -103,7 +92,7 @@ public class Dukey {
                 }
             } else {
                 try {
-                    this.addNewTask(tasks, command, false, false);
+                    this.taskArray.addNewTask(command, false, false);
                 } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
                         MissingTimeframeException e) {
                     System.out.println(e.getMessage());
@@ -117,8 +106,8 @@ public class Dukey {
      *
      * @param tasks ArrayList of type Task.
      */
-    public void readFromFile(ArrayList<Task> tasks) {
-        ArrayList<String> taskList = this.storage.load();
+ //   public void readFromFile(ArrayList<Task> tasks) {
+ //       ArrayList<String> taskList = this.storage.load();
 //            File dukeyText = new File("./data/dukey.txt");
 //            Scanner myReader = new Scanner(dukeyText);
 //
@@ -168,7 +157,7 @@ public class Dukey {
 //                System.out.println(e.getMessage());
 //            }
 //        }
-    }
+//    }
     /**
      * Saves the tasks in the hard disk by updating the dukey.txt file.
      *
@@ -217,16 +206,16 @@ public class Dukey {
      * @param tasks ArrayList of type Task.
      * @param taskNumber Index of the task in the list.
      */
-    public void markDone(ArrayList<Task> tasks, int taskNumber) {
-        Task currentTask = tasks.get(taskNumber - 1);
-        currentTask.markDoneStatus();
-        String successMessage =
-                "____________________________________________________________\n" +
-                        "Nice! I've marked this task as done.\n   " +
-                        currentTask.toString() +
-                        "\n____________________________________________________________\n";
-        System.out.println(successMessage);
-    }
+//    public void markDone(ArrayList<Task> tasks, int taskNumber) {
+//        Task currentTask = tasks.get(taskNumber - 1);
+//        currentTask.markDoneStatus();
+//        String successMessage =
+//                "____________________________________________________________\n" +
+//                        "Nice! I've marked this task as done.\n   " +
+//                        currentTask.toString() +
+//                        "\n____________________________________________________________\n";
+//        System.out.println(successMessage);
+//    }
 
     /**
      * Marks certain tasks as not done.
@@ -234,16 +223,16 @@ public class Dukey {
      * @param tasks ArrayList of type Task.
      * @param taskNumber Index of the task in the list.
      */
-    public void unmarkDone(ArrayList<Task> tasks, int taskNumber) {
-        Task currentTask = tasks.get(taskNumber - 1);
-        currentTask.unmarkDoneStatus();
-        String successMessage =
-                "____________________________________________________________\n" +
-                        "Nice! I've unmarked this task as not done.\n   " +
-                        currentTask.toString() +
-                        "\n____________________________________________________________\n";
-        System.out.println(successMessage);
-    }
+//    public void unmarkDone(ArrayList<Task> tasks, int taskNumber) {
+//        Task currentTask = tasks.get(taskNumber - 1);
+//        currentTask.unmarkDoneStatus();
+//        String successMessage =
+//                "____________________________________________________________\n" +
+//                        "Nice! I've unmarked this task as not done.\n   " +
+//                        currentTask.toString() +
+//                        "\n____________________________________________________________\n";
+//        System.out.println(successMessage);
+//    }
 
     /**
      * Adds tasks to the list according to the task type.
@@ -257,76 +246,76 @@ public class Dukey {
      * @throws MissingDeadlineException If deadline task did not indicate a deadline.
      * @throws MissingTimeframeException If event task did not indicate a time frame.
      */
-    public void addNewTask(ArrayList<Task> tasks, String input, boolean isDone, boolean isInitialise)
-            throws InvalidCommandException, EmptyDescriptionException,
-            MissingDeadlineException, MissingTimeframeException {
-        Task newTask;
-
-        switch (input.split(" ")[0].toLowerCase()) {
-        case "todo" -> {
-            String description = input.substring(input.indexOf(" ") + 1);
-//            System.out.println("description: " + description);
-
-            if (!input.trim().contains(" ")) {
-                throw new EmptyDescriptionException();
-            }
-
-            newTask = new Todo(description, isDone);
-            tasks.add(newTask);
-        }
-        case "deadline" -> {
-            String description = input.substring(input.indexOf(" ") + 1);
-//            System.out.println("description: " + description);
-
-            if (!input.trim().contains(" ")) {
-                throw new EmptyDescriptionException();
-            } else if (!input.contains("/by")) {
-                throw new MissingDeadlineException();
-            }
-//            int index = -1;
-//            for (int i = 0; i < deadlineTimeArray.length; i++) {
-//                if (deadlineTimeArray[i].length() == 10 && deadlineTimeArray[i].matches(DATE_PATTERN)) {
-//                    date = deadlineTimeArray[i];
-//                    try {
-//                        LocalDate dateInput = LocalDate.parse(date);
-//                        dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-//                        hasDate = true;
-//                        index = i;
-//                        break;
-//                    } catch (DateTimeParseException e) {
-//                        System.out.println("Date parsed failed. Error message: " + e.getMessage());
-//                    }
-//                }
+//    public void addNewTask(ArrayList<Task> tasks, String input, boolean isDone, boolean isInitialise)
+//            throws InvalidCommandException, EmptyDescriptionException,
+//            MissingDeadlineException, MissingTimeframeException {
+//        Task newTask;
+//
+//        switch (input.split(" ")[0].toLowerCase()) {
+//        case "todo" -> {
+//            String description = input.substring(input.indexOf(" ") + 1);
+////            System.out.println("description: " + description);
+//
+//            if (!input.trim().contains(" ")) {
+//                throw new EmptyDescriptionException();
 //            }
-            newTask = new Deadline(description, isDone);
-            tasks.add(newTask);
-        }
-        case "event" -> {
-            String description = input.substring(input.indexOf(" ") + 1);
-//            System.out.println("description: " + description);
-
-            if (!input.trim().contains(" ")) {
-                throw new EmptyDescriptionException();
-            } else if (!input.contains("/from") || !input.contains("/to")) {
-                throw new MissingTimeframeException();
-            }
-
-            newTask = new Event(description, isDone);
-            tasks.add(newTask);
-        }
-        default -> {
-            throw new InvalidCommandException();
-        }
-        }
-        if (!isInitialise) {
-            System.out.println(
-                    "____________________________________________________________\n" +
-                            "Understood. I have added the task:\n    "
-                            + newTask.toString()
-                            + "\nYou now have " + tasks.size() + " tasks in the list."
-                            + "\n____________________________________________________________\n");
-        }
-    }
+//
+//            newTask = new Todo(description, isDone);
+//            tasks.add(newTask);
+//        }
+//        case "deadline" -> {
+//            String description = input.substring(input.indexOf(" ") + 1);
+////            System.out.println("description: " + description);
+//
+//            if (!input.trim().contains(" ")) {
+//                throw new EmptyDescriptionException();
+//            } else if (!input.contains("/by")) {
+//                throw new MissingDeadlineException();
+//            }
+////            int index = -1;
+////            for (int i = 0; i < deadlineTimeArray.length; i++) {
+////                if (deadlineTimeArray[i].length() == 10 && deadlineTimeArray[i].matches(DATE_PATTERN)) {
+////                    date = deadlineTimeArray[i];
+////                    try {
+////                        LocalDate dateInput = LocalDate.parse(date);
+////                        dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+////                        hasDate = true;
+////                        index = i;
+////                        break;
+////                    } catch (DateTimeParseException e) {
+////                        System.out.println("Date parsed failed. Error message: " + e.getMessage());
+////                    }
+////                }
+////            }
+//            newTask = new Deadline(description, isDone);
+//            tasks.add(newTask);
+//        }
+//        case "event" -> {
+//            String description = input.substring(input.indexOf(" ") + 1);
+////            System.out.println("description: " + description);
+//
+//            if (!input.trim().contains(" ")) {
+//                throw new EmptyDescriptionException();
+//            } else if (!input.contains("/from") || !input.contains("/to")) {
+//                throw new MissingTimeframeException();
+//            }
+//
+//            newTask = new Event(description, isDone);
+//            tasks.add(newTask);
+//        }
+//        default -> {
+//            throw new InvalidCommandException();
+//        }
+//        }
+//        if (!isInitialise) {
+//            System.out.println(
+//                    "____________________________________________________________\n" +
+//                            "Understood. I have added the task:\n    "
+//                            + newTask.toString()
+//                            + "\nYou now have " + tasks.size() + " tasks in the list."
+//                            + "\n____________________________________________________________\n");
+//        }
+//    }
 
     /**
      * Removes task from the list.
@@ -334,14 +323,14 @@ public class Dukey {
      * @param tasks ArrayList of type Task.
      * @param taskNumber Index of the task in the list.
      */
-    public void removeTask(ArrayList<Task> tasks, int taskNumber) {
-        System.out.println(
-                "____________________________________________________________\n" +
-                "Understood. I have removed this task:\n    " +
-                tasks.get(taskNumber - 1).toString() +
-                "\nYou now have " + (tasks.size() - 1) + " tasks in the list." +
-                "\n____________________________________________________________\n");
-        tasks.remove(taskNumber - 1);
-    }
+//    public void removeTask(ArrayList<Task> tasks, int taskNumber) {
+//        System.out.println(
+//                "____________________________________________________________\n" +
+//                "Understood. I have removed this task:\n    " +
+//                tasks.get(taskNumber - 1).toString() +
+//                "\nYou now have " + (tasks.size() - 1) + " tasks in the list." +
+//                "\n____________________________________________________________\n");
+//        tasks.remove(taskNumber - 1);
+//    }
 }
 

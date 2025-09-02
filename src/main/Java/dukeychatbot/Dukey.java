@@ -35,6 +35,8 @@ public class Dukey {
         ArrayList<Task> tasks = new ArrayList<>();
         boolean isActive = true;
 
+        readFromFile(tasks);
+
         String bye =
                 "____________________________________________________________\n" +
                 " Bye. Hope to see you again soon!\n" +
@@ -273,7 +275,21 @@ public class Dukey {
             } else if (!input.contains("/by")) {
                 throw new MissingDeadlineException();
             }
-
+//            int index = -1;
+//            for (int i = 0; i < deadlineTimeArray.length; i++) {
+//                if (deadlineTimeArray[i].length() == 10 && deadlineTimeArray[i].matches(DATE_PATTERN)) {
+//                    date = deadlineTimeArray[i];
+//                    try {
+//                        LocalDate dateInput = LocalDate.parse(date);
+//                        dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+//                        hasDate = true;
+//                        index = i;
+//                        break;
+//                    } catch (DateTimeParseException e) {
+//                        System.out.println("Date parsed failed. Error message: " + e.getMessage());
+//                    }
+//                }
+//            }
             newTask = new Deadline(description, isDone);
             tasks.add(newTask);
         }
@@ -286,6 +302,7 @@ public class Dukey {
             } else if (!input.contains("/from") || !input.contains("/to")) {
                 throw new MissingTimeframeException();
             }
+
             newTask = new Event(description, isDone);
             tasks.add(newTask);
         }

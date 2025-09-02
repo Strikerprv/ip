@@ -1,5 +1,9 @@
 package dukeychatbot.tasktypes;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  * Constructs Event class which inherits from Task class.
  * Overrides {@code toString()} method.
@@ -20,20 +24,29 @@ public class Event extends Task{
     public String toString() {
         String currentDescription = this.getDescription();
         String formattedDescription;
+        String DATE_PATTERN = "\\d{4}-\\d{2}-\\d{2}";
 
-        if (currentDescription.contains("/from")) {
-            String[] splitDescription = currentDescription.split("/from");
-            if (splitDescription[1].contains("/to")) {
-                String[] furtherSplitDescription = splitDescription[1].split("/to");
-                formattedDescription = splitDescription[0] +
-                        "(from: " + furtherSplitDescription[0].trim() +
-                        " to: " + furtherSplitDescription[1].trim() + ")";
-            } else {
-                formattedDescription = splitDescription[0] + "(from:" + splitDescription[1];
+        String[] splitDescription = currentDescription.split("/from");
+        String[] furtherSplitDescription = splitDescription[1].split("/to");
+        String fromDate = furtherSplitDescription[0].trim();
+        String toDate = furtherSplitDescription[1].trim();
+        if (fromDate.length() == 10 && fromDate.matches(DATE_PATTERN)) {
+            try {
+                LocalDate dateInput = LocalDate.parse(fromDate);
+                fromDate = dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Date parsed failed. Error message: " + e.getMessage());
             }
-        } else {
-            formattedDescription = currentDescription;
         }
+        if (toDate.length() == 10 && toDate.matches(DATE_PATTERN)) {
+            try {
+                LocalDate dateInput = LocalDate.parse(toDate);
+                toDate = dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            } catch (DateTimeParseException e) {
+                System.out.println("Date parsed failed. Error message: " + e.getMessage());
+            }
+        }
+        formattedDescription = splitDescription[0] + "(from: " + fromDate + " to: " + toDate + ")";
 
         return "[E] " + "[" + this.getStatusIcon() + "] " + formattedDescription;
     }

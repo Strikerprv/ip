@@ -17,10 +17,12 @@ import java.util.ArrayList;
 public class Dukey {
     private Storage storage;
     private TaskList taskArray;
+    private Ui ui;
 
     public Dukey(String filePath) {
         this.storage = new Storage(filePath);
         this.taskArray = new TaskList(this.storage.load());
+        this.ui = new Ui();
     }
     /**
      * Returns Dukey chatbot.
@@ -36,37 +38,40 @@ public class Dukey {
         Scanner sc = new Scanner(System.in);
         boolean isActive = true;
 
-        String bye =
-                "____________________________________________________________\n" +
-                " Bye. Hope to see you again soon!\n" +
-                "____________________________________________________________\n";
-
-        System.out.println(
-                "____________________________________________________________\n" +
-                " Hello! I'm Dukey\n" +
-                " You have " + taskArray.getTasks().size() + " tasks in your list.\n" +
-                " What can I do for you?\n" +
-                "____________________________________________________________\n");
+//        String bye =
+//                "____________________________________________________________\n" +
+//                " Bye. Hope to see you again soon!\n" +
+//                "____________________________________________________________\n";
+        this.ui.hello(taskArray.getTasks());
+//        System.out.println(
+//                "____________________________________________________________\n" +
+//                " Hello! I'm Dukey\n" +
+//                " You have " + taskArray.getTasks().size() + " tasks in your list.\n" +
+//                " What can I do for you?\n" +
+//                "____________________________________________________________\n");
 
         while (isActive) {
             String command = sc.nextLine().trim();
             if (command.toLowerCase().equals("bye")) {
                 this.storage.save(taskArray.getTasks());
+                this.ui.bye();
 //                writeToFile(tasks);
-                System.out.println(bye);
+//                System.out.println(bye);
                 isActive = false;
             } else if (command.toLowerCase().equals("list")) {
-                this.printList(taskArray.getTasks());
+                this.ui.printList(taskArray.getTasks());
+//                this.printList(taskArray.getTasks());
             } else if (command.split(" ").length == 2 &&
                     command.split(" ")[0].toLowerCase().equals("mark")) {
                 int taskNumber = Integer.parseInt(command.split(" ")[1]);
                 if (taskNumber <= taskArray.getTasks().size()) {
                     this.taskArray.markDone(taskNumber);
                 } else {
-                    System.out.println(
-                            "____________________________________________________________\n" +
-                            "Task number exceeds the number of tasks! Please amend command!\n" +
-                            "____________________________________________________________\n");
+                    this.ui.invalidTaskIndex();
+//                    System.out.println(
+//                            "____________________________________________________________\n" +
+//                            "Task number exceeds the number of tasks! Please amend command!\n" +
+//                            "____________________________________________________________\n");
                 }
             } else if (command.split(" ").length == 2 &&
                     command.split(" ")[0].toLowerCase().equals("unmark")) {
@@ -74,10 +79,11 @@ public class Dukey {
                 if (taskNumber <= taskArray.getTasks().size()) {
                     this.taskArray.unmarkDone(taskNumber);
                 } else {
-                    System.out.println(
-                            "____________________________________________________________\n" +
-                            "Task number exceeds the number of tasks! Please amend command!\n" +
-                            "____________________________________________________________\n");
+                    this.ui.invalidTaskIndex();
+//                    System.out.println(
+//                            "____________________________________________________________\n" +
+//                            "Task number exceeds the number of tasks! Please amend command!\n" +
+//                            "____________________________________________________________\n");
                 }
             } else if (command.split(" ").length == 2 &&
                     command.split(" ")[0].toLowerCase().equals("delete")) {
@@ -85,10 +91,11 @@ public class Dukey {
                 if (taskNumber <= taskArray.getTasks().size()) {
                     this.taskArray.removeTask(taskNumber);
                 } else {
-                    System.out.println(
-                            "____________________________________________________________\n" +
-                            "Task number exceeds the number of tasks! Please amend command!\n" +
-                            "____________________________________________________________\n");
+                    this.ui.invalidTaskIndex();
+//                    System.out.println(
+//                            "____________________________________________________________\n" +
+//                            "Task number exceeds the number of tasks! Please amend command!\n" +
+//                            "____________________________________________________________\n");
                 }
             } else {
                 try {
@@ -191,14 +198,14 @@ public class Dukey {
      *
      * @param tasks ArrayList of type Task.
      */
-    public void printList(ArrayList<Task> tasks) {
-        System.out.println("____________________________________________________________");
-        for (int count = 1; count <= tasks.size(); count++) {
-            Task currentTask = tasks.get(count - 1);
-            System.out.println(count + ". " + currentTask.toString());
-        }
-        System.out.println("____________________________________________________________\n");
-    }
+//    public void printList(ArrayList<Task> tasks) {
+//        System.out.println("____________________________________________________________");
+//        for (int count = 1; count <= tasks.size(); count++) {
+//            Task currentTask = tasks.get(count - 1);
+//            System.out.println(count + ". " + currentTask.toString());
+//        }
+//        System.out.println("____________________________________________________________\n");
+//    }
 
     /**
      * Marks certain tasks as done.

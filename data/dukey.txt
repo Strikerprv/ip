@@ -1,4 +1,5 @@
 [T] [ ] Read Book
 [D] [X] Read Newspaper (by: 8 August)
-[E] [X] Utown Festival (from: Oct 10 2019 to: Oct 12 2019)
-[T] [ ] read new book
+[E] [ ] Utown Festival (from: Oct 10 2019 to: Oct 12 2019)
+[T] [X] read new book
+[T] [ ] Read Book

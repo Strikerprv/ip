@@ -21,7 +21,7 @@ public class Dukey {
     }
 
     /**
-     * Returns Dukey chatbot.
+     * Constructs Dukey chatbot.
      * Dukey helps users to compile a list of tasks,
      * with there being different types of tasks: todo, deadline and event.
      */

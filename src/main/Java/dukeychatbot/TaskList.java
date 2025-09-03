@@ -11,6 +11,11 @@ import dukeychatbot.tasktypes.Todo;
 
 import java.util.ArrayList;
 
+/**
+ * Constructs the TaskList class which contains the task list and carry out task commands.
+ *
+ * @author dongjun
+ */
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
 
@@ -18,6 +23,11 @@ public class TaskList {
         this.initialiseTasks(taskList);
     }
 
+    /**
+     * Initialises the task list from the storage.
+     *
+     * @param taskList ArrayList of type String.
+     */
     private void initialiseTasks(ArrayList<String> taskList) {
         for (String input : taskList) {
             try {
@@ -67,10 +77,20 @@ public class TaskList {
         }
     }
 
+    /**
+     * Returns ArrayList of tasks.
+     */
     public ArrayList<Task> getTasks() {
         return this.tasks;
     }
 
+    /**
+     * Adds new task to the tasks ArrayList.
+     *
+     * @param input User input
+     * @param isDone Task completion status
+     * @param isInitialise Whether this function is called to initialise the task list.
+     */
     public void addNewTask(String input, boolean isDone, boolean isInitialise)
             throws InvalidCommandException, EmptyDescriptionException,
             MissingDeadlineException, MissingTimeframeException {
@@ -142,6 +162,9 @@ public class TaskList {
         }
     }
 
+    /**
+     * Removes task from tasks ArrayList.
+     */
     public void removeTask(int taskNumber) {
         System.out.println(
                 "____________________________________________________________\n" +
@@ -152,6 +175,9 @@ public class TaskList {
         tasks.remove(taskNumber - 1);
     }
 
+    /**
+     * Marks task as done.
+     */
     public void markDone(int taskNumber) {
         Task currentTask = this.tasks.get(taskNumber - 1);
         currentTask.markDoneStatus();
@@ -163,6 +189,9 @@ public class TaskList {
         System.out.println(successMessage);
     }
 
+    /**
+     * Marks task as not done.
+     */
     public void unmarkDone(int taskNumber) {
         Task currentTask = this.tasks.get(taskNumber - 1);
         currentTask.unmarkDoneStatus();
@@ -173,5 +202,4 @@ public class TaskList {
                         "\n____________________________________________________________\n";
         System.out.println(successMessage);
     }
-
 }

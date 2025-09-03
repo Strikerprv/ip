@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Constructs the Storage class which deals with loading and saving the task list
+ * onto the hard drive using the Dukey.txt file.
+ *
+ * @author dongjun
+ */
 public class Storage {
     private final String filePath;
     private ArrayList<String> fileContent = new ArrayList<>();
@@ -27,10 +33,20 @@ public class Storage {
         }
     }
 
+    /**
+     * Returns the file content from Dukey.txt.
+     *
+     * @return Content of Dukey.txt
+     */
     public ArrayList<String> load() {
         return this.fileContent;
     }
 
+    /**
+     * Saves the tasks in the hard disk by updating the dukey.txt file.
+     *
+     * @param tasks ArrayList of type Task.
+     */
     public void save(ArrayList<Task> tasks) {
         try {
             FileWriter writer = new FileWriter(this.filePath);

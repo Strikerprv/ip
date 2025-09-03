@@ -1,3 +1,4 @@
 [T] [ ] Read Book
 [D] [ ] Read Newspaper (by: 8 August)
 [D] [X] Read NSS Reading (by: Dec 22 2019)
+[E] [X] Utown Festival (from: Oct 10 2019 to: Oct 12 2019)

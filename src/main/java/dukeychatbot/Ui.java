@@ -36,7 +36,7 @@ public class Ui {
     }
 
     /**
-     * Displays list of current tasks.
+     * Displays list of tasks.
      *
      * @param tasks ArrayList of type Task.
      */
@@ -66,6 +66,17 @@ public class Ui {
         System.out.println(
                 "____________________________________________________________\n" +
                 "Mistake in task number input. Make sure you input an integer!\n" +
+                "____________________________________________________________\n");
+    }
+
+    /**
+     * Displays message when no matching tasks are found.
+     */
+    public void noMatchingTasks() {
+        System.out.println(
+                "____________________________________________________________\n" +
+                "We do not have any task descriptions matching your keyword!\n" +
+                "Please try finding another keyword!\n" +
                 "____________________________________________________________\n");
     }
 }

@@ -51,6 +51,9 @@ public class Task {
         return "[" + this.getStatusIcon() + "] " + this.getDescription();
     }
 
+    /**
+     * Looks for the keyword in the task description and returns true or false.
+     */
     public boolean match(String keyword) {
         boolean isMatching = false;
         String[] wordArray = this.description.split(" ");

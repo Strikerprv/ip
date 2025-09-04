@@ -203,6 +203,12 @@ public class TaskList {
         System.out.println(successMessage);
     }
 
+    /**
+     * Returns an ArrayList of tasks which have descriptions with the keyword in it.
+     *
+     * @param keyword Keyword to find
+     * @return ArrayList of tasks with description that has the keyword in it.
+     */
     public ArrayList<Task> find(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>(this.tasks); // Creates a shallow copy
 

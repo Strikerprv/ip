@@ -71,9 +71,18 @@ public class Parser {
         }
     }
 
+    /**
+     * Finds the task descriptions with the keyword in it.
+     *
+     * @param keyword Keyword to find
+     */
     public void find(String keyword) {
         ArrayList<Task> matchingArray = this.taskArray.find(keyword);
-        this.ui.printList("\nHere are the matching tasks in your list: ", matchingArray);
+        if (matchingArray.isEmpty()) {
+            this.ui.noMatchingTasks();
+        } else {
+            this.ui.printList("\nHere are the matching tasks in your list: ", matchingArray);
+        }
     }
 
     /**

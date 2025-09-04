@@ -16,13 +16,13 @@ import java.util.Scanner;
  * @author dongjun
  */
 public class Storage {
-    private final String filePath;
+    private final String FILEPATH;
     private ArrayList<String> fileContent = new ArrayList<>();
 
     public Storage(String filePath) {
-        this.filePath = filePath;
+        this.FILEPATH = filePath;
         try {
-            File dukeyText = new File(this.filePath);
+            File dukeyText = new File(this.FILEPATH);
             Scanner myReader = new Scanner(dukeyText);
             while (myReader.hasNextLine()) {
                 String input = myReader.nextLine();
@@ -49,7 +49,7 @@ public class Storage {
      */
     public void save(ArrayList<Task> tasks) {
         try {
-            FileWriter writer = new FileWriter(this.filePath);
+            FileWriter writer = new FileWriter(this.FILEPATH);
             // Concatenate strings together to input into the text file
             StringBuilder resultText = new StringBuilder();
 

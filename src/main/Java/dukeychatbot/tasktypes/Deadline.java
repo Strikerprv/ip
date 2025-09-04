@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
  * Constructs Deadline class which inherits from Task class.
  * Overrides {@code toString()} method.
  */
-public class Deadline extends Task{
+public class Deadline extends Task {
 
     public Deadline(String description, boolean isDone) {
         super(description, isDone);

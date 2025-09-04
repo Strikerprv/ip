@@ -40,8 +40,8 @@ public class Ui {
      *
      * @param tasks ArrayList of type Task.
      */
-    public void printList(ArrayList<Task> tasks) {
-        System.out.println("____________________________________________________________");
+    public void printList(String header, ArrayList<Task> tasks) {
+        System.out.println("____________________________________________________________" + header);
         for (int count = 1; count <= tasks.size(); count++) {
             Task currentTask = tasks.get(count - 1);
             System.out.println(count + ". " + currentTask.toString());

@@ -50,4 +50,16 @@ public class Task {
     public String toString() {
         return "[" + this.getStatusIcon() + "] " + this.getDescription();
     }
+
+    public boolean match(String keyword) {
+        boolean isMatching = false;
+        String[] wordArray = this.description.split(" ");
+
+        for (int j = 0; j < wordArray.length; j++) {
+            if (wordArray[j].equalsIgnoreCase(keyword)) {
+                isMatching = true;
+            }
+        }
+        return isMatching;
+    }
 }

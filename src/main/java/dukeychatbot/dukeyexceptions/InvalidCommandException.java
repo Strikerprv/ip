@@ -14,6 +14,7 @@ public class InvalidCommandException extends DukeyException {
               "Type them to see their functionality\n" +
               "To mark tasks as done or undone, use commands: 'mark <task number>' and 'unmark <task number>'\n" +
               "To delete tasks, use command: 'delete <task number>'\n" +
+              "To find key words, use command: 'find <keyword'\n" +
               "____________________________________________________________\n");
     }
 }

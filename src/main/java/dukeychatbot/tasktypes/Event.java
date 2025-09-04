@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
  * Constructs Event class which inherits from Task class.
  * Overrides {@code toString()} method.
  */
-public class Event extends Task{
+public class Event extends Task {
 
     public Event(String description, boolean isDone) {
         super(description, isDone);

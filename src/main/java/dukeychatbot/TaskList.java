@@ -202,4 +202,15 @@ public class TaskList {
                         "\n____________________________________________________________\n";
         System.out.println(successMessage);
     }
+
+    public ArrayList<Task> find(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>(this.tasks); // Creates a shallow copy
+
+        for (int i = matchingTasks.size() - 1; i >= 0; i--) {
+            if (!matchingTasks.get(i).match(keyword)) {
+                matchingTasks.remove(i);
+            }
+        }
+        return matchingTasks;
+    }
 }

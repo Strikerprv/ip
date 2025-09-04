@@ -4,6 +4,9 @@ import dukeychatbot.dukeyexceptions.EmptyDescriptionException;
 import dukeychatbot.dukeyexceptions.InvalidCommandException;
 import dukeychatbot.dukeyexceptions.MissingDeadlineException;
 import dukeychatbot.dukeyexceptions.MissingTimeframeException;
+import dukeychatbot.tasktypes.Task;
+
+import java.util.ArrayList;
 
 /**
  * Constructs the Parser class which deals with making sense of the user command.
@@ -34,7 +37,7 @@ public class Parser {
             this.byeCommand();
             return;
         } else if (command.equalsIgnoreCase("list")) {
-            this.ui.printList(taskArray.getTasks());
+            this.ui.printList("", taskArray.getTasks());
             return;
         } else if (command.split(" ").length == 2) {
             try {
@@ -50,6 +53,10 @@ public class Parser {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     this.delete(taskNumber);
                     return;
+                } else if (command.split(" ")[0].equalsIgnoreCase("find")) {
+                    String keyword = command.split(" ")[1];
+                    this.find(keyword);
+                    return;
                 }
             } catch (NumberFormatException e) {
                 this.ui.numberFormatError();
@@ -62,6 +69,11 @@ public class Parser {
                  MissingTimeframeException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void find(String keyword) {
+        ArrayList<Task> matchingArray = this.taskArray.find(keyword);
+        this.ui.printList("\nHere are the matching tasks in your list: ", matchingArray);
     }
 
     /**

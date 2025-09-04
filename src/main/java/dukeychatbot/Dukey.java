@@ -5,6 +5,7 @@ import java.util.Scanner;
 /**
  * Constructs a Chatbot called Dukey, which helps compile a to-do list.
  * Dukey has other classes as part of it, including: TaskList, Ui, Storage and Parser.
+ * TaskList handles functionality regarding adding and removing tasks, and marking and unmarking tasks.
  *
  * @author dongjun
  */

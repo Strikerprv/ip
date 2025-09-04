@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * Tests the functionality of components of Dukey chatbot.
+ *
+ * @author dongjun
+ */
 public class DukeyTest {
-
-    @Test
-    public void dummy() {
-        assertEquals(2,2);
-    }
 
     @Test
     public void taskListMarkDone_indexOutOfRange_indexOutOfBoundsException() {

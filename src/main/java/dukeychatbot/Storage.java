@@ -1,13 +1,13 @@
 package dukeychatbot;
 
-import dukeychatbot.tasktypes.Task;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import dukeychatbot.tasktypes.Task;
 
 /**
  * Constructs the Storage class which deals with loading and saving the task list
@@ -19,6 +19,9 @@ public class Storage {
     private final String FILEPATH;
     private ArrayList<String> fileContent = new ArrayList<>();
 
+    /**
+     * Constructs the Storage object.
+     */
     public Storage(String filePath) {
         this.FILEPATH = filePath;
         try {

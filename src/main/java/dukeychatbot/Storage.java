@@ -50,7 +50,7 @@ public class Storage {
      *
      * @param tasks ArrayList of type Task.
      */
-    public void save(ArrayList<Task> tasks) {
+    public String save(ArrayList<Task> tasks) {
         try {
             FileWriter writer = new FileWriter(this.FILEPATH);
             // Concatenate strings together to input into the text file
@@ -67,9 +67,10 @@ public class Storage {
             writer.write(resultText.toString());
             writer.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File cannot be found: " + e.getMessage());
+            return "File cannot be found: " + e.getMessage();
         } catch (IOException e) {
-            System.out.println("An error occurred while saving. Error: " + e.getMessage());
+            return "An error occurred while saving. Error: " + e.getMessage();
         }
+        return "Successfully saved updated tasks to hard drive.";
     }
 }

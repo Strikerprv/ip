@@ -19,7 +19,8 @@ public class DukeyTest {
     @Test
     public void taskListMarkDone_indexOutOfRange_indexOutOfBoundsException() {
         try {
-            TaskList tasks = new TaskList(new ArrayList<>());
+            Ui ui = new Ui();
+            TaskList tasks = new TaskList(new ArrayList<>(), ui);
             tasks.markDone(1);
             fail();
         } catch (IndexOutOfBoundsException e) {

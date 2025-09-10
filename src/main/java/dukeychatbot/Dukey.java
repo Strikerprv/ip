@@ -18,10 +18,15 @@ public class Dukey {
     private Storage storage;
     private Parser parser;
 
-    public Dukey(String filePath) {
-        this.storage = new Storage(filePath);
-        this.taskArray = new TaskList(this.storage.load());
+    public Dukey() {
+        this("./data/dukey.txt");
+//        Dukey.main(new String[] {});
+    }
+
+    private Dukey(String filePath) {
         this.ui = new Ui();
+        this.storage = new Storage(filePath);
+        this.taskArray = new TaskList(this.storage.load(), this.ui);
         this.parser = new Parser(this.taskArray, this.ui, this.storage);
     }
 
@@ -41,12 +46,32 @@ public class Dukey {
         Scanner sc = new Scanner(System.in);
         boolean isActive = true;
 
-        this.ui.hello(taskArray.getTasks());
+        System.out.println(this.ui.hello(taskArray.getTasks()));
 
         while (this.parser.getActiveStatus()) {
             String command = sc.nextLine().trim();
-            this.parser.parse(command);
+            String output = this.getResponse(command);
+            System.out.println(output);
         }
+    }
+
+    /**
+     * Returns welcome text for the GUI to show users.
+     */
+    public String welcome() {
+        return this.ui.hello(taskArray.getTasks());
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+//        return "Duke heard: " + input;
+        if (!this.parser.getActiveStatus()) {
+            return this.ui.chatboxClosedResponse();
+        }
+
+        return this.parser.parse(input);
     }
 }
 

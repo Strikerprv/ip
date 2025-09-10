@@ -31,43 +31,36 @@ public class Parser {
      *
      * @param fullCommand Command input from user
      */
-    public void parse(String fullCommand) {
+    public String parse(String fullCommand) {
         String command = fullCommand.trim();
         if (command.equalsIgnoreCase("bye")) {
-            this.byeCommand();
-            return;
+            return this.byeCommand();
         } else if (command.equalsIgnoreCase("list")) {
-            this.ui.printList("", taskArray.getTasks());
-            return;
+            return this.ui.printList("", taskArray.getTasks());
         } else if (command.split(" ").length == 2) {
             try {
                 if (command.split(" ")[0].equalsIgnoreCase("mark")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
-                    this.markCommand(taskNumber);
-                    return;
+                    return this.markCommand(taskNumber);
                 } else if (command.split(" ")[0].equalsIgnoreCase("unmark")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
-                    this.unmarkCommand(taskNumber);
-                    return;
+                    return this.unmarkCommand(taskNumber);
                 } else if (command.split(" ")[0].equalsIgnoreCase("delete")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
-                    this.delete(taskNumber);
-                    return;
+                    return this.delete(taskNumber);
                 } else if (command.split(" ")[0].equalsIgnoreCase("find")) {
                     String keyword = command.split(" ")[1];
-                    this.find(keyword);
-                    return;
+                    return this.find(keyword);
                 }
             } catch (NumberFormatException e) {
-                this.ui.numberFormatError();
-                return;
+                return this.ui.numberFormatError();
             }
         }
         try {
-            this.taskArray.addNewTask(command, false, false);
+            return this.taskArray.addNewTask(command, false, false);
         } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
                  MissingTimeframeException e) {
-            System.out.println(e.getMessage());
+            return this.ui.formattedErrorResponse(e.getMessage());
         }
     }
 
@@ -76,12 +69,12 @@ public class Parser {
      *
      * @param keyword Keyword to find
      */
-    public void find(String keyword) {
+    public String find(String keyword) {
         ArrayList<Task> matchingArray = this.taskArray.find(keyword);
         if (matchingArray.isEmpty()) {
-            this.ui.noMatchingTasks();
+            return this.ui.noMatchingTasks();
         } else {
-            this.ui.printList("\nHere are the matching tasks in your list: ", matchingArray);
+            return this.ui.printList("\nHere are the matching tasks in your list: ", matchingArray);
         }
     }
 
@@ -90,11 +83,11 @@ public class Parser {
      *
      * @param taskNumber task number
      */
-    public void delete(int taskNumber) {
+    public String delete(int taskNumber) {
         if (taskNumber <= taskArray.getTasks().size()) {
-            this.taskArray.removeTask(taskNumber);
+            return this.taskArray.removeTask(taskNumber);
         } else {
-            this.ui.invalidTaskIndex();
+            return this.ui.invalidTaskIndex();
         }
     }
 
@@ -103,11 +96,11 @@ public class Parser {
      *
      * @param taskNumber task number
      */
-    public void unmarkCommand(int taskNumber) {
+    public String unmarkCommand(int taskNumber) {
         if (taskNumber <= taskArray.getTasks().size()) {
-            this.taskArray.unmarkDone(taskNumber);
+            return this.taskArray.unmarkDone(taskNumber);
         } else {
-            this.ui.invalidTaskIndex();
+            return this.ui.invalidTaskIndex();
         }
     }
 
@@ -116,21 +109,21 @@ public class Parser {
      *
      * @param taskNumber task number
      */
-    public void markCommand(int taskNumber) {
+    public String markCommand(int taskNumber) {
         if (taskNumber <= this.taskArray.getTasks().size()) {
-            this.taskArray.markDone(taskNumber);
+            return this.taskArray.markDone(taskNumber);
         } else {
-            this.ui.invalidTaskIndex();
+            return this.ui.invalidTaskIndex();
         }
     }
 
     /**
      * Returns the goodbye text on the UI and store the task list to the hard drive.
      */
-    public void byeCommand() {
-        this.ui.bye();
+    public String byeCommand() {
         this.isActive = false;
         this.storage.save(taskArray.getTasks());
+        return this.ui.bye();
     }
 
     /**

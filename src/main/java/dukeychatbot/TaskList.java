@@ -18,9 +18,11 @@ import dukeychatbot.tasktypes.Todo;
  */
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
+    private Ui ui;
 
-    public TaskList(ArrayList<String> taskList) {
+    public TaskList(ArrayList<String> taskList, Ui ui) {
         this.initialiseTasks(taskList);
+        this.ui = ui;
     }
 
     /**
@@ -94,7 +96,7 @@ public class TaskList {
      * @param isDone Task completion status
      * @param isInitialise Whether this function is called to initialise the task list.
      */
-    public void addNewTask(String input, boolean isDone, boolean isInitialise)
+    public String addNewTask(String input, boolean isDone, boolean isInitialise)
             throws InvalidCommandException, EmptyDescriptionException,
             MissingDeadlineException, MissingTimeframeException {
         Task newTask;
@@ -139,54 +141,40 @@ public class TaskList {
         }
         }
         if (!isInitialise) {
-            System.out.println(
-                    "____________________________________________________________\n"
-                            + "Understood. I have added the task:\n    "
-                            + newTask.toString()
-                            + "\nYou now have " + tasks.size() + " tasks in the list."
-                            + "\n____________________________________________________________\n");
+            return this.ui.addTaskResponse(newTask.toString(), tasks.size());
+        } else {
+            return null;
         }
     }
 
     /**
      * Removes task from tasks ArrayList.
      */
-    public void removeTask(int taskNumber) {
-        System.out.println(
-                "____________________________________________________________\n"
-                        + "Understood. I have removed this task:\n    "
-                        + tasks.get(taskNumber - 1).toString()
-                        + "\nYou now have " + (tasks.size() - 1) + " tasks in the list."
-                        + "\n____________________________________________________________\n");
+    public String removeTask(int taskNumber) {
+        String message = this.ui.removeTaskResponse(tasks.get(taskNumber - 1).toString(), (tasks.size() - 1));
         tasks.remove(taskNumber - 1);
+
+        return message;
     }
 
     /**
      * Marks task as done.
      */
-    public void markDone(int taskNumber) {
+    public String markDone(int taskNumber) {
         Task currentTask = this.tasks.get(taskNumber - 1);
         currentTask.markDoneStatus();
-        String successMessage =
-                "____________________________________________________________\n"
-                        + "Nice! I've marked this task as done.\n   "
-                        + currentTask.toString()
-                        + "\n____________________________________________________________\n";
-        System.out.println(successMessage);
+
+        return this.ui.markDoneResponse(currentTask.toString());
     }
 
     /**
      * Marks task as not done.
      */
-    public void unmarkDone(int taskNumber) {
+    public String unmarkDone(int taskNumber) {
         Task currentTask = this.tasks.get(taskNumber - 1);
         currentTask.unmarkDoneStatus();
-        String successMessage =
-                "____________________________________________________________\n"
-                        + "Nice! I've unmarked this task as not done.\n   "
-                        + currentTask.toString()
-                        + "\n____________________________________________________________\n";
-        System.out.println(successMessage);
+
+        return this.ui.unmarkDoneResponse(currentTask.toString());
     }
 
     /**

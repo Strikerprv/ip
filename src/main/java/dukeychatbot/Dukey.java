@@ -25,7 +25,7 @@ public class Dukey {
 
     private Dukey(String filePath) {
         this.ui = new Ui();
-        this.storage = new Storage(filePath);
+        this.storage = new Storage(filePath, this.ui);
         this.taskArray = new TaskList(this.storage.load(), this.ui);
         this.parser = new Parser(this.taskArray, this.ui, this.storage);
     }

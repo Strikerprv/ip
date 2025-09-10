@@ -18,12 +18,14 @@ import dukeychatbot.tasktypes.Task;
 public class Storage {
     private final String FILEPATH;
     private ArrayList<String> fileContent = new ArrayList<>();
+    private Ui ui;
 
     /**
      * Constructs the Storage object.
      */
-    public Storage(String filePath) {
+    public Storage(String filePath, Ui ui) {
         this.FILEPATH = filePath;
+        this.ui = ui;
         try {
             File dukeyText = new File(this.FILEPATH);
             Scanner myReader = new Scanner(dukeyText);
@@ -32,7 +34,7 @@ public class Storage {
                 fileContent.add(input);
             }
         } catch (NullPointerException | FileNotFoundException e) {
-            System.out.println("Loading hard disk file failed, error: " + e.getMessage());
+            this.ui.formattedErrorResponse("Loading hard disk file failed, error: " + e.getMessage());
         }
     }
 
@@ -67,9 +69,9 @@ public class Storage {
             writer.write(resultText.toString());
             writer.close();
         } catch (FileNotFoundException e) {
-            return "File cannot be found: " + e.getMessage();
+            return this.ui.formattedErrorResponse("File cannot be found: " + e.getMessage());
         } catch (IOException e) {
-            return "An error occurred while saving. Error: " + e.getMessage();
+            return this.ui.formattedErrorResponse("An error occurred while saving. Error: " + e.getMessage());
         }
         return "Successfully saved updated tasks to hard drive.";
     }

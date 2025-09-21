@@ -3,12 +3,12 @@ package dukeychatbot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import dukeychatbot.tasktypes.Deadline;
-import dukeychatbot.tasktypes.Event;
-
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+
+import dukeychatbot.tasktypes.Deadline;
+import dukeychatbot.tasktypes.Event;
 
 /**
  * Tests the functionality of components of Dukey chatbot.

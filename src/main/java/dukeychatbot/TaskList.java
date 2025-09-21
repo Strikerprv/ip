@@ -102,13 +102,13 @@ public class TaskList {
         Task newTask;
 
         switch (input.split(" ")[0].toLowerCase()) {
-        case "todo" -> {
+        case "todo", "t" -> {
             newTask = addTodoTask(input, isDone);
         }
-        case "deadline" -> {
+        case "deadline", "d" -> {
             newTask = addDeadlineTask(input, isDone);
         }
-        case "event" -> {
+        case "event", "e" -> {
             newTask = addEventTask(input, isDone);
         }
         default -> {

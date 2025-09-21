@@ -33,22 +33,27 @@ public class Parser {
      */
     public String parse(String fullCommand) {
         String command = fullCommand.trim();
-        if (command.equalsIgnoreCase("bye")) {
+        if (command.equalsIgnoreCase("bye") || command.equalsIgnoreCase("b")) {
             return this.byeCommand();
-        } else if (command.equalsIgnoreCase("list")) {
+        } else if (command.equalsIgnoreCase("list") || command.equalsIgnoreCase("li") ) {
             return this.ui.printList("", taskArray.getTasks());
         } else if (command.split(" ").length == 2) {
             try {
-                if (command.split(" ")[0].equalsIgnoreCase("mark")) {
+                String commandWord = command.split(" ")[0];
+                if (commandWord.equalsIgnoreCase("mark") ||
+                        commandWord.equalsIgnoreCase("m")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     return this.markCommand(taskNumber);
-                } else if (command.split(" ")[0].equalsIgnoreCase("unmark")) {
+                } else if (commandWord.equalsIgnoreCase("unmark") ||
+                        commandWord.equalsIgnoreCase("unm")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     return this.unmarkCommand(taskNumber);
-                } else if (command.split(" ")[0].equalsIgnoreCase("delete")) {
+                } else if (commandWord.equalsIgnoreCase("delete") ||
+                        commandWord.equalsIgnoreCase("del")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     return this.delete(taskNumber);
-                } else if (command.split(" ")[0].equalsIgnoreCase("find")) {
+                } else if (commandWord.equalsIgnoreCase("find") ||
+                        commandWord.equalsIgnoreCase("f")) {
                     String keyword = command.split(" ")[1];
                     return this.find(keyword);
                 }

@@ -1,14 +1,13 @@
 package javafxtutorial;
 
+import java.io.IOException;
+
 import dukeychatbot.Dukey;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-
-import javafx.fxml.FXMLLoader;
 
 /**
  * A GUI for Duke using FXML.
@@ -24,7 +23,7 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setDuke(dukey);  // inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setDuke(dukey); // inject the Duke instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

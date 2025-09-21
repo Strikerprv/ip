@@ -1,12 +1,12 @@
 package dukeychatbot;
 
+import java.util.ArrayList;
+
 import dukeychatbot.dukeyexceptions.EmptyDescriptionException;
 import dukeychatbot.dukeyexceptions.InvalidCommandException;
 import dukeychatbot.dukeyexceptions.MissingDeadlineException;
 import dukeychatbot.dukeyexceptions.MissingTimeframeException;
 import dukeychatbot.tasktypes.Task;
-
-import java.util.ArrayList;
 
 /**
  * Constructs the Parser class which deals with making sense of the user command.
@@ -19,6 +19,9 @@ public class Parser {
     private boolean isActive;
     private Storage storage;
 
+    /**
+     * Constructs the Parser object.
+     */
     public Parser(TaskList taskArray, Ui ui, Storage storage) {
         this.taskArray = taskArray;
         this.ui = ui;
@@ -35,25 +38,25 @@ public class Parser {
         String command = fullCommand.trim();
         if (command.equalsIgnoreCase("bye") || command.equalsIgnoreCase("b")) {
             return this.byeCommand();
-        } else if (command.equalsIgnoreCase("list") || command.equalsIgnoreCase("li") ) {
+        } else if (command.equalsIgnoreCase("list") || command.equalsIgnoreCase("li")) {
             return this.ui.printList("", taskArray.getTasks());
         } else if (command.split(" ").length == 2) {
             try {
                 String commandWord = command.split(" ")[0];
-                if (commandWord.equalsIgnoreCase("mark") ||
-                        commandWord.equalsIgnoreCase("m")) {
+                if (commandWord.equalsIgnoreCase("mark")
+                        || commandWord.equalsIgnoreCase("m")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     return this.markCommand(taskNumber);
-                } else if (commandWord.equalsIgnoreCase("unmark") ||
-                        commandWord.equalsIgnoreCase("unm")) {
+                } else if (commandWord.equalsIgnoreCase("unmark")
+                        || commandWord.equalsIgnoreCase("unm")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     return this.unmarkCommand(taskNumber);
-                } else if (commandWord.equalsIgnoreCase("delete") ||
-                        commandWord.equalsIgnoreCase("del")) {
+                } else if (commandWord.equalsIgnoreCase("delete")
+                        || commandWord.equalsIgnoreCase("del")) {
                     int taskNumber = Integer.parseInt(command.split(" ")[1]);
                     return this.delete(taskNumber);
-                } else if (commandWord.equalsIgnoreCase("find") ||
-                        commandWord.equalsIgnoreCase("f")) {
+                } else if (commandWord.equalsIgnoreCase("find")
+                        || commandWord.equalsIgnoreCase("f")) {
                     String keyword = command.split(" ")[1];
                     return this.find(keyword);
                 }
@@ -63,8 +66,8 @@ public class Parser {
         }
         try {
             return this.taskArray.addNewTask(command, false, false);
-        } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException |
-                 MissingTimeframeException e) {
+        } catch (InvalidCommandException | EmptyDescriptionException | MissingDeadlineException
+                 | MissingTimeframeException e) {
             return this.ui.formattedErrorResponse(e.getMessage());
         }
     }

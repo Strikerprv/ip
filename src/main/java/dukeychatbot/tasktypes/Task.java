@@ -8,6 +8,9 @@ public class Task {
     protected String description;
     protected boolean isDone;
 
+    /**
+     * Constructs the Task object.
+     */
     public Task(String description, boolean isDone) {
         this.description = description;
         this.isDone = isDone;

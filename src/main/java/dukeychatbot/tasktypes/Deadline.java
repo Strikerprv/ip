@@ -28,9 +28,9 @@ public class Deadline extends Task {
         String deadlineTime = description.split("/by")[1].trim();
         boolean isFormatted = false;
 
-        String DATE_PATTERN = "\\d{4}-\\d{2}-\\d{2}";
+        String datePattern = "\\d{4}-\\d{2}-\\d{2}";
 
-        if (deadlineTime.length() == 10 && deadlineTime.matches(DATE_PATTERN)) {
+        if (deadlineTime.length() == 10 && deadlineTime.matches(datePattern)) {
             try {
                 LocalDate dateInput = LocalDate.parse(deadlineTime);
                 deadlineTime = dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));

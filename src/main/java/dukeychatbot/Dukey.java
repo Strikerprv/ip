@@ -18,9 +18,12 @@ public class Dukey {
     private Storage storage;
     private Parser parser;
 
+    /**
+     * Constructs the Dukey object.
+     */
     public Dukey() {
         this("./data/dukey.txt");
-//        Dukey.main(new String[] {});
+        // Dukey.main(new String[] {});
     }
 
     private Dukey(String filePath) {
@@ -66,7 +69,6 @@ public class Dukey {
      * Generates a response for the user's chat message.
      */
     public String getResponse(String input) {
-//        return "Duke heard: " + input;
         if (!this.parser.getActiveStatus()) {
             return this.ui.chatboxClosedResponse();
         }

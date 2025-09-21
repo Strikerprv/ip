@@ -24,13 +24,13 @@ public class Event extends Task {
     public String toString() {
         String currentDescription = this.getDescription();
         String formattedDescription;
-        String DATE_PATTERN = "\\d{4}-\\d{2}-\\d{2}";
+        String datePattern = "\\d{4}-\\d{2}-\\d{2}";
 
         String[] splitDescription = currentDescription.split("/from");
         String[] furtherSplitDescription = splitDescription[1].split("/to");
         String fromDate = furtherSplitDescription[0].trim();
         String toDate = furtherSplitDescription[1].trim();
-        if (fromDate.length() == 10 && fromDate.matches(DATE_PATTERN)) {
+        if (fromDate.length() == 10 && fromDate.matches(datePattern)) {
             try {
                 LocalDate dateInput = LocalDate.parse(fromDate);
                 fromDate = dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
@@ -38,7 +38,7 @@ public class Event extends Task {
                 System.out.println("Date parsed failed. Error message: " + e.getMessage());
             }
         }
-        if (toDate.length() == 10 && toDate.matches(DATE_PATTERN)) {
+        if (toDate.length() == 10 && toDate.matches(datePattern)) {
             try {
                 LocalDate dateInput = LocalDate.parse(toDate);
                 toDate = dateInput.format(DateTimeFormatter.ofPattern("MMM d yyyy"));

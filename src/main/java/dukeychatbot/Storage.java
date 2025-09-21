@@ -16,7 +16,7 @@ import dukeychatbot.tasktypes.Task;
  * @author dongjun
  */
 public class Storage {
-    private final String FILEPATH;
+    private final String filepath;
     private ArrayList<String> fileContent = new ArrayList<>();
     private Ui ui;
 
@@ -24,10 +24,10 @@ public class Storage {
      * Constructs the Storage object.
      */
     public Storage(String filePath, Ui ui) {
-        this.FILEPATH = filePath;
+        this.filepath = filePath;
         this.ui = ui;
         try {
-            File dukeyText = new File(this.FILEPATH);
+            File dukeyText = new File(this.filepath);
             Scanner myReader = new Scanner(dukeyText);
             while (myReader.hasNextLine()) {
                 String input = myReader.nextLine();
@@ -54,7 +54,7 @@ public class Storage {
      */
     public String save(ArrayList<Task> tasks) {
         try {
-            FileWriter writer = new FileWriter(this.FILEPATH);
+            FileWriter writer = new FileWriter(this.filepath);
             // Concatenate strings together to input into the text file
             StringBuilder resultText = new StringBuilder();
 

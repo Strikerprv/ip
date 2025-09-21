@@ -20,6 +20,9 @@ public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
     private Ui ui;
 
+    /**
+     * Constructs the TaskList object.
+     */
     public TaskList(ArrayList<String> taskList, Ui ui) {
         this.initialiseTasks(taskList);
         this.ui = ui;

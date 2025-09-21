@@ -84,6 +84,8 @@ public class Parser {
      * @param taskNumber task number
      */
     public String delete(int taskNumber) {
+        assert taskNumber >= 0 : "task number should be 0 or more";
+
         if (taskNumber <= taskArray.getTasks().size()) {
             return this.taskArray.removeTask(taskNumber);
         } else {
@@ -97,6 +99,8 @@ public class Parser {
      * @param taskNumber task number
      */
     public String unmarkCommand(int taskNumber) {
+        assert taskNumber >= 0 : "task number should be 0 or more";
+
         if (taskNumber <= taskArray.getTasks().size()) {
             return this.taskArray.unmarkDone(taskNumber);
         } else {
@@ -110,6 +114,8 @@ public class Parser {
      * @param taskNumber task number
      */
     public String markCommand(int taskNumber) {
+        assert taskNumber >= 0 : "task number should be 0 or more";
+
         if (taskNumber <= this.taskArray.getTasks().size()) {
             return this.taskArray.markDone(taskNumber);
         } else {

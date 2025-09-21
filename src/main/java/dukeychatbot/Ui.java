@@ -91,7 +91,7 @@ public class Ui {
         return HORIZONTAL_LINE
                + "Understood. I have removed this task:\n    "
                + taskDescription
-               + "\nYou now have " + taskNo + " tasks in the list."
+               + "\nYou now have " + taskNo + " tasks in the list.\n"
                + HORIZONTAL_LINE;
     }
 
@@ -115,7 +115,7 @@ public class Ui {
         return HORIZONTAL_LINE
               + "Understood. I have added the task:\n"
               + taskDescription
-              + "\nYou now have " + taskNo + " tasks in the list."
+              + "\nYou now have " + taskNo + " tasks in the list.\n"
               + HORIZONTAL_LINE;
     }
 

@@ -103,38 +103,13 @@ public class TaskList {
 
         switch (input.split(" ")[0].toLowerCase()) {
         case "todo" -> {
-            String description = input.substring(input.indexOf(" ") + 1);
-
-            if (!input.trim().contains(" ")) {
-                throw new EmptyDescriptionException();
-            }
-
-            newTask = new Todo(description, isDone);
-            this.tasks.add(newTask);
+            newTask = addTodoTask(input, isDone);
         }
         case "deadline" -> {
-            String description = input.substring(input.indexOf(" ") + 1);
-
-            if (!input.trim().contains(" ")) {
-                throw new EmptyDescriptionException();
-            } else if (!input.contains("/by")) {
-                throw new MissingDeadlineException();
-            }
-
-            newTask = new Deadline(description, isDone);
-            this.tasks.add(newTask);
+            newTask = addDeadlineTask(input, isDone);
         }
         case "event" -> {
-            String description = input.substring(input.indexOf(" ") + 1);
-
-            if (!input.trim().contains(" ")) {
-                throw new EmptyDescriptionException();
-            } else if (!input.contains("/from") || !input.contains("/to")) {
-                throw new MissingTimeframeException();
-            }
-
-            newTask = new Event(description, isDone);
-            this.tasks.add(newTask);
+            newTask = addEventTask(input, isDone);
         }
         default -> {
             throw new InvalidCommandException();
@@ -145,6 +120,75 @@ public class TaskList {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Constructs new Todo task and adds it to the task list.
+     *
+     * @param input User input
+     * @param isDone Task completion status
+     *
+     * @return Newly constructed task
+     */
+    public Task addTodoTask(String input, boolean isDone)
+            throws EmptyDescriptionException {
+        String description = input.substring(input.indexOf(" ") + 1);
+
+        if (!input.trim().contains(" ")) {
+            throw new EmptyDescriptionException();
+        }
+        Task newTask = new Todo(description, isDone);
+        this.tasks.add(newTask);
+
+        return newTask;
+    }
+
+    /**
+     * Constructs new Deadline task and adds it to the task list.
+     *
+     *
+     * @param input User input
+     * @param isDone Task completion status
+     *
+     * @return Newly constructed task
+     */
+    public Task addDeadlineTask(String input, boolean isDone)
+            throws EmptyDescriptionException, MissingDeadlineException {
+        String description = input.substring(input.indexOf(" ") + 1);
+
+        if (!input.trim().contains(" ")) {
+            throw new EmptyDescriptionException();
+        } else if (!input.contains("/by")) {
+            throw new MissingDeadlineException();
+        }
+
+        Task newTask = new Deadline(description, isDone);
+        this.tasks.add(newTask);
+
+        return newTask;
+    }
+
+    /**
+     * Constructs new Event task and adds it to the task list.
+     * @param input User input
+     * @param isDone Task completion status
+     *
+     *  @return Newly constructed task
+     */
+    public Task addEventTask(String input, boolean isDone)
+            throws EmptyDescriptionException, MissingTimeframeException {
+
+        String description = input.substring(input.indexOf(" ") + 1);
+
+        if (!input.trim().contains(" ")) {
+            throw new EmptyDescriptionException();
+        } else if (!input.contains("/from") || !input.contains("/to")) {
+            throw new MissingTimeframeException();
+        }
+
+        Task newTask = new Event(description, isDone);
+        this.tasks.add(newTask);
+        return newTask;
     }
 
     /**

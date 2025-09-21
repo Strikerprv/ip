@@ -11,12 +11,13 @@ public class InvalidCommandException extends DukeyException {
      * Constructs the InvalidCommandException object.
      */
     public InvalidCommandException() {
-        super("WARNING: Invalid command. \n"
-              + "- Valid commands are: 1) 'todo' [or 't'], 2) 'deadline' [or 'd'], 3) 'event' [or 'e'] to add tasks."
-              + " Type them to see their functionality\n"
-              + "- To mark tasks as done or undone, use commands 'mark' [or 'm'] and 'unmark' [or 'unm']: "
-              + "'mark <task number>' and 'unmark <task number>'\n"
-              + "- To delete tasks, use command 'delete' [or 'del']: 'delete <task number>'\n"
-              + "- To find key words, use command 'find' [or 'f']: 'find <keyword>'\n");
+        super("Pika! Invalid command, pika!\n"
+                + "Valid commands:\n"
+                + "- Add: 'todo'/'t', 'deadline'/'d', 'event'/'e'\n"
+                + "- Mark: 'mark <num>' or 'm <num> \n"
+                + "- Unmark: 'unmark <num>' or 'unm <num>'\n"
+                + "- Delete: 'delete <num>' or 'del <num>'\n"
+                + "- Find: 'find <keyword>' or 'f <keyword>'\n"
+                + "Type them to see what happens, pika!");
     }
 }

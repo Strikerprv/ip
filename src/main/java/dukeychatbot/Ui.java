@@ -20,9 +20,9 @@ public class Ui {
      */
     public String hello(ArrayList<Task> tasks) {
         return horizontalLine
-                + "Hello! I'm Dukey\n"
+                + "Pika Pika! Hello! I'm Pikachu!! ⚡\n"
                 + "You have " + tasks.size() + " tasks in your list.\n"
-                + "What can I do for you?\n"
+                + "What can I do for you, pika?\n"
                 + horizontalLine;
     }
 
@@ -31,8 +31,9 @@ public class Ui {
      */
     public String bye() {
         return horizontalLine
-                + "Bye. Hope to see you again soon!\n"
-                + "This tab will close in 5 seconds.\n"
+                + "Pika… bye-bye! 🐾\n"
+                + "Hope to see you again soon, pika!\n"
+                + "This chat will close in 5 seconds, pika!\n"
                 + horizontalLine;
     }
 
@@ -43,7 +44,7 @@ public class Ui {
      */
     public String printList(String header, ArrayList<Task> tasks) {
         StringBuilder taskList = new StringBuilder();
-        taskList.append(horizontalLine);
+        taskList.append(horizontalLine).append("Here's your list, pika pika ⚡:\n");
         for (int count = 1; count <= tasks.size(); count++) {
             Task currentTask = tasks.get(count - 1);
             taskList.append(count).append(". ").append(currentTask.toString()).append("\n");
@@ -58,7 +59,8 @@ public class Ui {
      */
     public String invalidTaskIndex() {
         return horizontalLine
-                + "Task number exceeds the number of tasks! Please amend command!\n"
+                + "Pika pika! That task number is too big, pika!\n"
+                + "Try again with a smaller number, pika!\n"
                 + horizontalLine;
     }
 
@@ -67,7 +69,8 @@ public class Ui {
      */
     public String numberFormatError() {
         return horizontalLine
-                + "Mistake in task number input. Make sure you input an integer!\n"
+                + "Oops, pika! That doesn't look like a number.\n"
+                + "Make sure you type an integer, pika!\n"
                 + horizontalLine;
     }
 
@@ -76,8 +79,8 @@ public class Ui {
      */
     public String noMatchingTasks() {
         return horizontalLine
-                + "We do not have any task descriptions matching your keyword!\n"
-                + "Please try finding another keyword!\n"
+                + "Pika… I couldn't find any tasks matching that keyword.\n"
+                + "Try another keyword, pika!\n"
                 + horizontalLine;
     }
 
@@ -86,8 +89,9 @@ public class Ui {
      */
     public String chatboxClosedResponse() {
         return horizontalLine
-               + "Chatbox has been terminated. Do re-open the chatbox if you wish to continue your chat!\n"
-               + horizontalLine;
+                + "Pika! The chatbox is closed now. 💤\n"
+                + "You can reopen it anytime to continue our chat, pika!\n"
+                + horizontalLine;
     }
 
     /**
@@ -95,10 +99,10 @@ public class Ui {
      */
     public String removeTaskResponse(String taskDescription, int taskNo) {
         return horizontalLine
-               + "Understood. I have removed this task:\n    "
-               + taskDescription
-               + "\nYou now have " + taskNo + " tasks in the list.\n"
-               + horizontalLine;
+                + "Pika! I removed this task, pika:\n   "
+                + taskDescription
+                + "\nNow you have " + taskNo + " tasks left, pika!\n"
+                + horizontalLine;
     }
 
     /**
@@ -106,10 +110,10 @@ public class Ui {
      */
     public String markDoneResponse(String taskDescription) {
         return horizontalLine
-               + "Nice! I've marked this task as done.\n"
-               + taskDescription
-               + "\n"
-               + horizontalLine;
+                + "Pika Pika! Task completed, pika! ✅\n"
+                + taskDescription
+                + "\n"
+                + horizontalLine;
     }
 
     /**
@@ -117,7 +121,7 @@ public class Ui {
      */
     public String unmarkDoneResponse(String taskDescription) {
         return horizontalLine
-                + "Nice! I've unmarked this task as not done.\n   "
+                + "Pika… I’ve unmarked this task, pika:\n"
                 + taskDescription
                 + "\n"
                 + horizontalLine;
@@ -128,16 +132,16 @@ public class Ui {
      */
     public String addTaskResponse(String taskDescription, int taskNo) {
         return horizontalLine
-              + "Understood. I have added the task:\n"
-              + taskDescription
-              + "\nYou now have " + taskNo + " tasks in the list.\n"
-              + horizontalLine;
+                + "Pika Pika! Added a new task, pika:\n"
+                + taskDescription
+                + "\nYou now have " + taskNo + " tasks in total, pika! ⚡\n"
+                + horizontalLine;
     }
 
     /**
      * Displays formatted error response.
      */
     public String formattedErrorResponse(String errorMessage) {
-        return horizontalLine + errorMessage + horizontalLine;
+        return horizontalLine + "Pika… " + errorMessage + "\n" + horizontalLine;
     }
 }

@@ -99,7 +99,7 @@ public class Ui {
      */
     public String removeTaskResponse(String taskDescription, int taskNo) {
         return horizontalLine
-                + "Pika! I removed this task, pika:\n   "
+                + "Pika! I removed this task, pika:\n"
                 + taskDescription
                 + "\nNow you have " + taskNo + " tasks left, pika!\n"
                 + horizontalLine;

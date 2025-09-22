@@ -11,8 +11,8 @@ public class EmptyDescriptionException extends DukeyException {
      * Constructs the EmptyDescriptionException object.
      */
     public EmptyDescriptionException() {
-        super("WARNING: The description of a todo cannot be empty.\n"
+        super("WARNING: The description of a task cannot be empty.\n"
               + "Input the command with a description after it as such: todo <task description> "
-              + "or deadline <task description>\n");
+              + "or deadline <task description>");
     }
 }

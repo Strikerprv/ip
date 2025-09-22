@@ -20,7 +20,7 @@ public class Ui {
      */
     public String hello(ArrayList<Task> tasks) {
         return horizontalLine
-                + "Pika Pika! Hello! I'm Pikachu!! ⚡\n"
+                + "Pika Pika! Hello! I'm Dukey!! ⚡\n"
                 + "You have " + tasks.size() + " tasks in your list.\n"
                 + "What can I do for you, pika?\n"
                 + horizontalLine;

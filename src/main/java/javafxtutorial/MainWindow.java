@@ -35,7 +35,7 @@ public class MainWindow extends AnchorPane {
     }
 
     /** Injects the Duke instance */
-    public void setDuke(Dukey d) {
+    public void setDukey(Dukey d) {
         dukey = d;
 
         dialogContainer.getChildren().add(

@@ -1,6 +1,8 @@
 # Dukey User Guide
 
 [//]: # (![UI of Dukey Chatbot]&#40;./Ui.png&#41;)
+##Dukey Interface
+
 <img src="./Ui.png" alt="UI of Dukey Chatbot" width="50%">
 
 Dukey Chatbot is a simple yet powerful task manager that helps you stay on top of your daily commitments. 

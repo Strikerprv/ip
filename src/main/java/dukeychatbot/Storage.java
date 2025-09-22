@@ -28,9 +28,15 @@ public class Storage {
         this.ui = ui;
         try {
             File dukeyText = new File(this.filepath);
-            if (!dukeyText.exists()) { // if file doesn't exist, then make new file
+            File parent = dukeyText.getParentFile();
+
+            if (parent != null) {
+                parent.mkdirs();
+            }
+            if (!dukeyText.exists()) {
                 dukeyText.createNewFile();
             }
+
             Scanner myReader = new Scanner(dukeyText);
             while (myReader.hasNextLine()) {
                 String input = myReader.nextLine();
@@ -39,7 +45,7 @@ public class Storage {
         } catch (NullPointerException | FileNotFoundException e) {
             this.ui.formattedErrorResponse("Loading hard disk file failed, error: " + e.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            this.ui.formattedErrorResponse("Runtime error: " + e.getMessage());
         }
     }
 

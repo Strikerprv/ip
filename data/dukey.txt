@@ -1,3 +1,0 @@
-[T] [ ] task 1
-[T] [X] task 2
-[T] [ ] task 30
